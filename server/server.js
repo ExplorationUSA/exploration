@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
  * Handle unknown routes.
  */
 app.use('*', (req, res) => {
-  res.sendStatus(404);
+  res.status(404).sendFile(path.join(__dirname, '../404.html'));
 });
 
 /**
