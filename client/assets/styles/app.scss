@@ -1,0 +1,23 @@
+@import '_variables.scss';
+
+html {
+}
+
+body {
+  background-color: $bg-white;
+  font-family: $font-family-verdana;
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+h1 {
+  color: $font-color;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: center;
+  margin: auto;
+}
