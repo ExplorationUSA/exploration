@@ -9,18 +9,21 @@ const app = express();
 const PORT = 3000;
 
 /**
- * handling static assets
- */
-app.use(express.static(path.join(__dirname, 'client')));
-
-/**
  * handle parsing request body
  */
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../index.html'));
-});
+/**
+ * Production app at localhost:3000.
+ * serve all files from dist folder.
+ */
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../dist/')));
+
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  });
+}
 
 /**
  * Handle unknown routes.
