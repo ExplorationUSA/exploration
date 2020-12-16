@@ -12,7 +12,7 @@ module.exports = {
     filename: '[name].bundle.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.scss'],
+    extensions: ['.js', '.jsx'],
   },
   mode: process.env.NODE_ENV,
   devServer: {
