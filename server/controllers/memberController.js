@@ -77,7 +77,7 @@ memberController.validateMember = async (req, res, next) => {
     }
   } catch (error) {
     next({
-      log: `memberController.validateMember: ${err}`,
+      log: `memberController.validateMember: ${error}`,
       status: 500,
       message: {
         err: `Internal server error`,

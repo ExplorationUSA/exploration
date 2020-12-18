@@ -1,11 +1,10 @@
 const { Pool } = require("pg");
+const {db_URL} = require('./config');
 
-const PG_URI =
-  "postgres://irytjylt:yr0Ud-AvKwBLQf7Qaz05WcLuwTSEPGB-@suleiman.db.elephantsql.com:5432/irytjylt";
-
+console.log('database url', db_URL)
 // create a new pool here using the connection string above
 const pool = new Pool({
-  connectionString: PG_URI,
+  connectionString: db_URL,
 });
 
 module.exports = pool;
