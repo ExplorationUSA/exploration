@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-
+const route = require('./routes/member')
 const app = express();
 
 /**
@@ -12,6 +12,7 @@ const PORT = 3000;
  * handle parsing request body
  */
 app.use(express.json());
+app.use('/api', route)
 
 /**
  * Production app at localhost:3000.
