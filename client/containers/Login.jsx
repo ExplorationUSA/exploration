@@ -25,16 +25,16 @@ const LoginPage = () => {
     const { name, value } = event.target;
     setCurrentUserField({ ...currentUser, [name]: value });
     console.log(event.target.value);
-  }
+  };
     // backend function passed down in props that will take the currentUser as input;
   const handleUserSubmit = (event) => {
     event.preventDefault();
     console.log('form submit');
     console.log(event.target.querySelector('#userEmail').value);
     console.log('currentUser', currentUser);
-  }; 
+  };
 
-    return (
+  return (
       <LightMode>
         <Box>
           <Container border="1px solid silver" margin="auto" mt="100px" maxW="300px" py="20px" rounded="5%">
@@ -51,7 +51,7 @@ const LoginPage = () => {
                   <Input id="userPassword" onChange={handleInputChange} type="password" name="userPassword" />
                   <FormHelperText fontSize="12px" id="password-helper-text">The password you used to signup with</FormHelperText>
                 </FormControl>
-                <Button ml="60px" mt={4} colorScheme="gray" type="submit">Submit</Button>
+                <Button ml="60px" mt={4} colorScheme="gray" type="submit"> Login</Button>
               </form>
             </Container>
             <Flex mt="30px" justifyContent="space-between">
@@ -63,7 +63,7 @@ const LoginPage = () => {
                 <Text fontSize="12px">Do not have an account?</Text>
                 <NavLink to="/signup"><Text fontSize="12px" textDecoration="underline">Sign up</Text></NavLink>
               </Flex>
-              <NavLink to="/resetPassword"><Text id="forgotPassword" ml="30px" pt="5px" fontSize="10px">Forgot username and password?</Text></NavLink>
+              {/* <NavLink to="/resetPassword"><Text id="forgotPassword" ml="30px" pt="5px" fontSize="10px">Forgot username and password?</Text></NavLink> */}
             </Container>
           </Container>
         </Box>
