@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
-const route = require('./routes/member')
+const route = require('./routes/member');
 const app = express();
+const session = require('express-session')
+const passport = require('passport');
+const passConfig = require('./passport.config');
 
 /**
  * system config.
@@ -12,7 +15,10 @@ const PORT = 3000;
  * handle parsing request body
  */
 app.use(express.json());
-app.use('/api', route)
+app.use(session({secret: 'top secret'}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api', route);
 
 /**
  * Production app at localhost:3000.
