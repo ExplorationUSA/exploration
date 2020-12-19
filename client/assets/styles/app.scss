@@ -14,10 +14,6 @@ h1 {
   color: $font-color;
 }
 
-.main-container {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  justify-content: center;
-  margin: auto;
+#forgotPassword {
+  color: red;
 }
