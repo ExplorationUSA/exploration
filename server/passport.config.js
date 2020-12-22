@@ -1,47 +1,39 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const Pool = require("./database");
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
+const Pool = require('./model/database');
 
-
-passport.use('local', new LocalStrategy({
-  usernameField: 'username',
-  passwordField: 'password',
-  passReqToCallback: true,
-}, (async (req, username, password, done) => {
+passport.use('local', new LocalStrategy((async (username, password, done) => {
   try {
-    const {username, password } = req.body;
     const query = 'SELECT * FROM member WHERE username = $1';
     const member = await Pool.query(query, [username]);
     if (member.rows.length === 0) {
       done(null, false, { message: 'Incorrect username.' });
-    }
-    else { 
+    } else {
       bcrypt.compare(password, member.rows[0].password, (err, isMatch) => {
         if (err) {
-          done(null, false, { message: 'Incorrect password.' });
-        } else if (isMatch === true) {
-          const {id, username, password} = member.rows[0];
-          done(null, {id, username, password});
-        }
+          done(null, false, { message: `Decrypt error: ${err}` });
+        } if (isMatch) {
+          const { id, username, password } = member.rows[0];
+          done(null, { id, username, password });
+        } else done(null, false, { message: 'Incorrect password.' });
       });
     }
   } catch (err) {
-    return done(err);
+    return done(null, false, { message: `${err}` });
   }
 })));
 
 passport.serializeUser((user, done) => {
-  console.log('user', user)
-  done(null, user.id)
-})
+  done(null, user.id);
+});
 
 passport.deserializeUser(async (id, cb) => {
   try {
-    const query = `SELECT * FROM member WHERE id =  $1`;
+    const query = 'SELECT * FROM member WHERE id =  $1';
     const member = await Pool.query(query, [id]);
-    cb(null, members.rows[0]);
+    cb(null, member.rows[0]);
   } catch (error) {
-   return cb(error)
+    return cb(error);
   }
-})
+});

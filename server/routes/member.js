@@ -1,21 +1,20 @@
 const express = require('express');
-const memberController = require('../controllers/memberController');
-const sessionController = require('../controllers/sessionController');
-
-const route = express.Router();
 const passport = require('passport');
 
+const route = express.Router();
+const memberController = require('../controllers/memberController');
+
 route.post('/signup', memberController.validateMember, memberController.createMember, passport.authenticate('local'), (req, res) => {
-  console.log('member created');
-  if (res.locals.message) res.status(200).json({ message: res.locals.message });
-  else {
-    res.status(200).json({ message: 'Successful Signup' });
-  }
+  res.status(200).json({ message: 'Successful Signup' });
 });
 
 route.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('member verified');
-  res.status(200).json({ message: 'Succesful Login' });
+  res.status(200).json({ message: 'Successful Login' });
+});
+
+route.get('/logout', (req, res) => {
+  req.logOut();
+  res.status(200).json({ message: 'Logged Out Successfully' });
 });
 
 module.exports = route;
