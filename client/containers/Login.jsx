@@ -16,8 +16,8 @@ import {
 const LoginPage = () => {
   // this sets the current state using the useState hook;
   const [currentUser, setCurrentUserField] = useState({
-    userEmail: '',
-    userPassword: '',
+    username: '',
+    password: '',
     });
 
   const handleInputChange = (event) => {
@@ -35,7 +35,7 @@ const LoginPage = () => {
     // console.log('currentUser', currentUser);
     // fetch
 
-    fetch('/api/login', {
+    fetch('/api/member/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(currentUser),
@@ -52,13 +52,13 @@ const LoginPage = () => {
             <Container marginBottom="1px solid silver" justifyContent='column'>
               <form onSubmit={handleUserSubmit}>
                 <FormControl isRequired>
-                  <FormLabel>User Email:</FormLabel>
-                  <Input id="userEmail" onChange={handleInputChange} name="userEmail" />
-                  <FormHelperText fontSize="12px" id="email-helper-text">Your user account email address</FormHelperText>
+                  <FormLabel>Username:</FormLabel>
+                  <Input id="username" onChange={handleInputChange} name="username" />
+                  <FormHelperText fontSize="12px" id="email-helper-text">Your username</FormHelperText>
                 </FormControl>
                 <FormControl isRequired mt="10px">
                   <FormLabel>Password:</FormLabel>
-                  <Input id="userPassword" onChange={handleInputChange} type="password" name="userPassword" />
+                  <Input id="password" onChange={handleInputChange} type="password" name="password" />
                   <FormHelperText fontSize="12px" id="password-helper-text">The password you used to signup with</FormHelperText>
                 </FormControl>
                 <Button ml="60px" mt={4} colorScheme="gray" type="submit">Submit</Button>
