@@ -16,9 +16,9 @@ import {
 
 const signup = () => {
   const [newUser, setNewUserField] = useState({
-    userName: '',
-    userEmail: '',
-    userPassword: '',
+    username: '',
+    useremail: '',
+    password: '',
     confirmedUserPassword: '',
   });
 
@@ -38,7 +38,7 @@ const signup = () => {
   };
 
   const validate = () => {
-    const firstPasswordInput = newUser.userPassword;
+    const firstPasswordInput = newUser.password;
     const secondPasswordInput = newUser.confirmedUserPassword;
     if (firstPasswordInput !== secondPasswordInput) {
       console.log('in if statement')
@@ -58,7 +58,7 @@ const signup = () => {
     console.log(errorStatus);
 
     if (errorStatus) {
-      fetch('/api/signup', {
+      fetch('/api/member/signup', {
         method: 'Post',
         headers: {
           'Content-Type': 'application/json',
@@ -79,17 +79,17 @@ const signup = () => {
             <form onSubmit={handleNewUserSubmit}>
               <FormControl isRequired>
                 <FormLabel>Username:</FormLabel>
-                <Input onChange={handleAllInputChange} id="userName" name="userName" />
+                <Input onChange={handleAllInputChange} id="username" name="username" />
                 <FormHelperText fontSize="12px" id="email-helper-text">Set up a username</FormHelperText>
               </FormControl>
               <FormControl isRequired mt="10px">
                 <FormLabel>User Email:</FormLabel>
-                <Input onChange={handleAllInputChange} id="userEmail" name="userEmail" />
+                <Input onChange={handleAllInputChange} id="email" name="email" />
                 <FormHelperText fontSize="12px" id="email-helper-text">Your user account email address</FormHelperText>
               </FormControl>
               <FormControl mt="10px" required>
                 <FormLabel>Password:</FormLabel>
-                <Input onChange={handleAllInputChange} id="userPassword" type="password" name="userPassword" />
+                <Input onChange={handleAllInputChange} id="password" type="password" name="password" />
                 {error.verifyPassword && <Text id="mismatchedPassword" fontSize="8px">{error.verifyPassword}</Text>}
                 <FormHelperText fontSize="12px" id="password-helper-text">Set up a password</FormHelperText>
               </FormControl>
