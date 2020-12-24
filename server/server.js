@@ -4,11 +4,10 @@ const session = require('express-session');
 
 const app = express();
 const passport = require('passport');
-const { TRUE } = require('node-sass');
 const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
 const routeMember = require('./routes/member');
-const { cookieStorageManager } = require('@chakra-ui/react');
+
 
 /**
  * system config.
@@ -19,7 +18,7 @@ const PORT = 3000;
  * handle parsing request body
  */
 app.use(express.json());
-app.use(session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true, cookie: {httpOnly: true}  }));
+app.use(session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true, cookie: {httpOnly: true, path: '/time'}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/member', routeMember);

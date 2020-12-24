@@ -13,7 +13,8 @@ passport.use('local', new LocalStrategy((async (username, password, done) => {
       bcrypt.compare(password, member.rows[0].password, (err, isMatch) => {
         if (err) {
           done(null, false, { message: `Decrypt error: ${err}` });
-        } if (isMatch) {
+        } 
+        if (isMatch) {
           const { id, username, password } = member.rows[0];
           done(null, { id, username, password });
         } else done(null, false, { message: 'Incorrect password.' });
@@ -28,12 +29,12 @@ passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(async (id, cb) => {
+passport.deserializeUser(async (id, done) => {
   try {
     const query = 'SELECT * FROM member WHERE id =  $1';
     const member = await Pool.query(query, [id]);
-    cb(null, member.rows[0]);
+    done(null, member.rows[0]);
   } catch (error) {
-    return cb(error);
+    return done(error, null);
   }
 });

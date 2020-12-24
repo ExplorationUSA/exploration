@@ -58,7 +58,7 @@ memberController.validateMember = async (req, res, next) => {
   const { username, password, email } = req.body;
   if (username === undefined || password === undefined || email === undefined) {
     return next({
-      log: `memberController.validateMember: ${err}`,
+      log: 'memberController.validateMember: Request parameters are empty',
       status: 406,
       message: {
         err: 'Request parameters are empty',
@@ -67,11 +67,11 @@ memberController.validateMember = async (req, res, next) => {
   }
   try {
     const query = 'SELECT * FROM member WHERE username = $1 OR email = $2';
-    const members = await Pool.query(query, [username, email]);
-    if (members.rows.length === 0) {
+    const member = await Pool.query(query, [username, email]);
+    if (member.rowCount !== 0) {
       return next({
         log: 'memberController.validateMember: User already exists',
-        status: 500,
+        status: 409,
         message: {
           err: 'User already exists',
         },
