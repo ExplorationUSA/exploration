@@ -16,42 +16,52 @@ import {
 const LoginPage = () => {
   // this sets the current state using the useState hook;
   const [currentUser, setCurrentUserField] = useState({
-    userEmail: '',
-    userPassword: '',
-  });
+    username: '',
+    password: '',
+    });
 
   const handleInputChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
     setCurrentUserField({ ...currentUser, [name]: value });
     console.log(event.target.value);
-  };
+  }
     // backend function passed down in props that will take the currentUser as input;
+
   const handleUserSubmit = (event) => {
     event.preventDefault();
     console.log('form submit');
-    console.log(event.target.querySelector('#userEmail').value);
-    console.log('currentUser', currentUser);
+    // console.log(event.target.querySelector('#userEmail').value);
+    // console.log('currentUser', currentUser);
+    // fetch
+
+    fetch('/api/member/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(currentUser),
+      })
+      .then((data) => console.log('sent body : ', data))
+      .catch((error) => console.log('Error:', error)) 
   };
 
   return (
-      <LightMode>
+      <LightMode> 
         <Box>
           <Container border="1px solid silver" margin="auto" mt="100px" maxW="300px" py="20px" rounded="5%">
             <Text textAlign="center" letterSpacing="2px" mb={2}>Exploration</Text>
             <Container marginBottom="1px solid silver" justifyContent='column'>
               <form onSubmit={handleUserSubmit}>
-                <FormControl required>
-                  <FormLabel>User Email:</FormLabel>
-                  <Input id="userEmail" onChange={handleInputChange} name="userEmail" />
-                  <FormHelperText fontSize="12px" id="email-helper-text">Your user account email address</FormHelperText>
+                <FormControl isRequired>
+                  <FormLabel>Username:</FormLabel>
+                  <Input id="username" onChange={handleInputChange} name="username" />
+                  <FormHelperText fontSize="12px" id="email-helper-text">Your username</FormHelperText>
                 </FormControl>
-                <FormControl mt="10px" required>
+                <FormControl isRequired mt="10px">
                   <FormLabel>Password:</FormLabel>
-                  <Input id="userPassword" onChange={handleInputChange} type="password" name="userPassword" />
+                  <Input id="password" onChange={handleInputChange} type="password" name="password" />
                   <FormHelperText fontSize="12px" id="password-helper-text">The password you used to signup with</FormHelperText>
                 </FormControl>
-                <Button ml="60px" mt={4} colorScheme="gray" type="submit"> Login</Button>
+                <Button ml="60px" mt={4} colorScheme="gray" type="submit">Submit</Button>
               </form>
             </Container>
             <Flex mt="30px" justifyContent="space-between">
