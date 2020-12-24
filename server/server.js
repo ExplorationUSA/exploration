@@ -18,7 +18,7 @@ const PORT = 3000;
  * handle parsing request body
  */
 app.use(express.json());
-app.use(session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true, cookie: {httpOnly: true, path: '/time'}}));
+app.use(session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true, cookie: {httpOnly: true}}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/member', routeMember);
