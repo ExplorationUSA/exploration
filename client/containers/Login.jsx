@@ -40,7 +40,9 @@ const LoginPage = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(currentUser),
       })
-      .then((data) => console.log('sent body : ', data))
+      .then((res) => res.json())
+      // if 200 redirect to homepage for all others display returned error message
+      .then((data) => console.log(data))
       .catch((error) => console.log('Error:', error)) 
   };
 
@@ -61,7 +63,7 @@ const LoginPage = () => {
                   <Input id="password" onChange={handleInputChange} type="password" name="password" />
                   <FormHelperText fontSize="12px" id="password-helper-text">The password you used to signup with</FormHelperText>
                 </FormControl>
-                <Button ml="60px" mt={4} colorScheme="gray" type="submit">Submit</Button>
+                <Button ml="60px" mt={4} colorScheme="gray" type="submit">Login</Button>
               </form>
             </Container>
             <Flex mt="30px" justifyContent="space-between">
