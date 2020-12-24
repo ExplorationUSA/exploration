@@ -1,19 +1,19 @@
 const express = require('express');
-const memberController = require('../controllers/memberController');
+
 const route = express.Router();
+const memberController = require('../controllers/memberController');
+const authController = require('../controllers/authController');
 
+route.post('/signup', memberController.validateMember, memberController.createMember, authController.authenticate, (req, res) => {
+  res.status(200).json({ message: res.locals.message });
+});
 
-route.post('/signup', memberController.validateMember, memberController.createMember, (req, res) =>{
-  console.log('member created')
-  if(res.locals.message) res.status(200).json({message: res.locals.message});
-  else{
-  res.status(200).redirect('/');
-  }
-})
+route.post('/login', authController.authenticate, (req, res) => {
+  res.status(200).json({ message: res.locals.message });
+});
 
-route.post('/login', memberController.verifyMember, (req, res) => {
-  console.log('member verified')
-  res.status(200).redirect('/');
-})
+route.get('/logout', authController.logout, (req, res) => {
+  res.status(200).json({ message: res.locals.message });
+});
 
 module.exports = route;
