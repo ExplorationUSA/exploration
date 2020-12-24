@@ -65,8 +65,12 @@ const signup = () => {
         },
         body: JSON.stringify(newUser),
       })
-      .then(() => console.log('fetch request with new user sent to server'))
-      .catch(() => console.log('An error occured in this fetch request to send new user'))
+      .then((res) => {
+        console.log('fetch request with new user sent to server');
+        return res.json();
+      })
+      .then(data => console.log(data))
+      .catch((err) => console.log('An error occured in this fetch request to send new user', err))
     }
 }; 
 
@@ -87,13 +91,13 @@ const signup = () => {
                 <Input onChange={handleAllInputChange} id="email" name="email" />
                 <FormHelperText fontSize="12px" id="email-helper-text">Your user account email address</FormHelperText>
               </FormControl>
-              <FormControl mt="10px" required>
+              <FormControl mt="10px" isRequired>
                 <FormLabel>Password:</FormLabel>
                 <Input onChange={handleAllInputChange} id="password" type="password" name="password" />
                 {error.verifyPassword && <Text id="mismatchedPassword" fontSize="8px">{error.verifyPassword}</Text>}
                 <FormHelperText fontSize="12px" id="password-helper-text">Set up a password</FormHelperText>
               </FormControl>
-              <FormControl mt="10px" required>
+              <FormControl mt="10px" isRequired>
                 <FormLabel>Confirm Password:</FormLabel>
                 <Input onChange={handleAllInputChange} id="confirmedUserPassword" type="password" name="confirmedUserPassword" />
                 {error.verifyPassword && <Text id="mismatchedPassword" fontSize="8px">{error.verifyPassword}</Text>}
