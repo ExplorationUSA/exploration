@@ -108,7 +108,7 @@ const signup = () => {
           </Container>
           <Container>
             <Flex ml="30px" maxW="180px" justifyContent="space-between">
-              <NavLink to="/"><Text mt="10px" fontSize="12px">I already have an account</Text></NavLink>
+              <NavLink to="/login"><Text mt="10px" fontSize="12px">I already have an account</Text></NavLink>
             </Flex>
           </Container>
         </Container>
