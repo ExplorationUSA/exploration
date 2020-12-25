@@ -44,4 +44,36 @@ tripController.getTrips = async (req, res, next) => {
   }
 };
 
+tripController.editTrip = async (req, res, next) => {
+  try {
+    const {
+      title, destination, start_date, end_date,
+    } = req.body;
+    console.log(req.body);
+
+    if(title === undefined || destination === undefined || start_date === undefined || end_date === undefined) {
+      next({
+        log: `tripController.getTrips: Request parameters are empty'`,
+        status: 406,
+        message: {
+          err: 'Request parameters are empty',
+        },
+      })
+    }
+    
+    const query = "UPDATE trips SET destination = $1, start_date = $2, end_date = $3 WHERE title = $4"
+    const trip = Pool.query(query, [destination, start_date, end_date, title])
+    console.log(trip)
+    next()
+  } catch (error) {
+    next({
+      log: `tripController.editTrip: ${error}`,
+      status: 500,
+      message: {
+        err: 'Internal server error',
+      },
+    })
+  }
+};
+
 module.exports = tripController;

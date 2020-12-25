@@ -12,4 +12,8 @@ route.get('/retrieve', authController.isAuthenticated, tripController.getTrips, 
   res.status(200).json({trips: res.locals.trips});
 })
 
+route.post('/edit', authController.isAuthenticated, tripController.editTrip, (req, res) =>{
+  res.status(200);
+})
+
 module.exports = route;
