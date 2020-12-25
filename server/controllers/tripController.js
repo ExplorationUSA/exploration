@@ -20,7 +20,7 @@ tripController.createTrip = async (req, res, next) => {
     }
 
     const duplicateQuery = 'SELECT FROM trip WHERE member_id = $1 AND title = $2';
-    const duplicateTrip = Pool.query(duplicateQuery, [member_id, title]);
+    const duplicateTrip = await Pool.query(duplicateQuery, [member_id, title]);
 
     if(duplicateTrip.rowCount !== 0){
       next({
@@ -87,7 +87,7 @@ tripController.editTrip = async (req, res, next) => {
     }
     
     const query = "UPDATE trips SET destination = $1, start_date = $2, end_date = $3 WHERE title = $4";
-    const trip = Pool.query(query, [destination, start_date, end_date, title]);
+    const trip = await Pool.query(query, [destination, start_date, end_date, title]);
    
     next();
 
@@ -102,7 +102,7 @@ tripController.editTrip = async (req, res, next) => {
   }
 };
 
-tripController.deleteTrip = (req, res, next) => {
+tripController.deleteTrip = async (req, res, next) => {
   try {
 
     const title = req.body;
@@ -119,7 +119,7 @@ tripController.deleteTrip = (req, res, next) => {
     }
 
     const query = 'DELETE FROM trip WHERE title = $1 AND member_id = $2';
-    const tripDelete = Pool.query(query, [title, member_id])
+    const tripDelete = await Pool.query(query, [title, member_id])
     next();
     
   } catch (error) {
