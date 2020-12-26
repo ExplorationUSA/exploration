@@ -1,22 +1,21 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import HomePage from './components/homepage';
-import LoginPage from './containers/Login';
-import SignupPage from './components/signup';
-import RetrievalPage from './components/retrieval';
+import LoginPage from './containers/LoginPage';
+import SignupPage from './containers/SignupPage';
+import HomePage from './containers/HomePage';
+import TimeHomePage from './containers/time/TimeHomePage';
+// import ResetPasswordPage from './containers/ResetPasswordPage';
 
-const App = () => {
-  // const cat = 'cat';
-  return (
-    <div id="app" className="main-container">
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" exact component={LoginPage} />
-        <Route path="/signup" exact component={SignupPage} />
-        {/* <Route path="/resetPassword" exact component={RetrievalPage} /> */}
-      </Switch>
-    </div>
-  );
-};
+const App = () => (
+  <div id="app" className="main-container">
+    <Switch>
+      <Route path="/" exact component={HomePage} />
+      <Route path="/login" exact component={LoginPage} />
+      <Route path="/signup" exact component={SignupPage} />
+      {/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
+      <Route path="/time/home" exact component={TimeHomePage} />
+    </Switch>
+  </div>
+);
 
 export default App;
