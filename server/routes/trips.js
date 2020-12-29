@@ -9,7 +9,7 @@ route.post(
   authController.isAuthenticated,
   tripController.createTrip,
   (req, res) => {
-    res.status(200).json({ message: 'Trip Created' });
+    res.status(200).json({ trip: res.locals.trip, message: 'Trip Created' });
   }
 );
 
@@ -36,7 +36,7 @@ route.put(
   authController.isAuthenticated,
   tripController.updateTrip,
   (req, res) => {
-    res.status(200).json({ message: 'Trip updated' });
+    res.status(200).json({ trip: res.locals.trip, message: 'Trip updated' });
   }
 );
 

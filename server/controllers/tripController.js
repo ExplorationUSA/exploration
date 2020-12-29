@@ -3,19 +3,19 @@ const Pool = require('../model/database.js');
 const tripController = {};
 
 tripController.createTrip = async (req, res, next) => {
-  const { title, destination, startDate, endDate } = req.body;
+  const {
+    title, destination, startDate, endDate, placeId,
+  } = req.body;
 
   const memberId = req.session.passport.user;
 
   if (
-    title === undefined ||
-    destination === undefined ||
-    startDate === undefined ||
-    endDate === undefined ||
-    !title ||
-    !destination ||
-    !startDate ||
-    !endDate
+    title === undefined
+    || destination === undefined
+    || placeId === undefined
+    || !placeId
+    || !title
+    || !destination
   ) {
     return next({
       log: 'tripController.createTrip: Request parameters are empty',
@@ -27,17 +27,21 @@ tripController.createTrip = async (req, res, next) => {
   }
 
   try {
-    const query =
-      'INSERT INTO trip (title, destination, start_date, end_date, member_id) VALUES ($1, $2 , $3, $4, $5)';
+    const query = 'INSERT INTO trip (title, destination, place_id, start_date, end_date, member_id) VALUES ($1, $2 , $3, $4, $5, $6) RETURNING *';
     const trip = await Pool.query(query, [
       title,
       destination,
+      placeId,
       startDate,
       endDate,
       memberId,
     ]);
+    console.log(trip);
 
-    if (trip.rowCount) next();
+    if (trip.rowCount) {
+      res.locals.trip = trip.rows[0];
+      next();
+    }
   } catch (error) {
     return next({
       log: `tripController.createTrip: ${error}`,
@@ -69,13 +73,15 @@ tripController.getTrips = async (req, res, next) => {
       message: {
         err: 'Internal server error',
       },
-    }); 
+    });
   }
 };
 
 tripController.updateTrip = async (req, res, next) => {
   const { id } = req.params;
-  const { title, destination, startDate, endDate } = req.body;
+  const {
+    title, destination, placeId, startDate, endDate,
+  } = req.body;
 
   if (!id) {
     return next({
@@ -88,14 +94,12 @@ tripController.updateTrip = async (req, res, next) => {
   }
 
   if (
-    title === undefined ||
-    destination === undefined ||
-    startDate === undefined ||
-    endDate === undefined ||
-    !title ||
-    !destination ||
-    !startDate ||
-    !endDate
+    title === undefined
+    || destination === undefined
+    || placeId === undefined
+    || !placeId
+    || !title
+    || !destination
   ) {
     return next({
       log: 'tripController.updateTrip: Request parameters are empty',
@@ -107,17 +111,20 @@ tripController.updateTrip = async (req, res, next) => {
   }
 
   try {
-    const query =
-      'UPDATE trip SET destination = $1, start_date = $2, end_date = $3, title = $4 WHERE id = $5';
+    const query = 'UPDATE trip SET destination = $1, start_date = $2, end_date = $3, title = $4, place_id = $5 WHERE id = $6 RETURNING *';
     const trip = await Pool.query(query, [
       destination,
       startDate,
       endDate,
       title,
+      placeId,
       id,
     ]);
 
-    if (trip.rowCount) next();
+    if (trip.rowCount) {
+      res.locals.trip = trip.rows[0];
+      next();
+    }
   } catch (error) {
     next({
       log: `tripController.updateTrip: ${error}`,
@@ -130,8 +137,9 @@ tripController.updateTrip = async (req, res, next) => {
 };
 
 tripController.deleteTrip = async (req, res, next) => {
+  //TODO: Must delete all activities related to trip to avoid foreign key constraint 
+
   const { id } = req.params;
-  const memberId = req.session.passport.user;
 
   if (!id) {
     next({
@@ -144,8 +152,8 @@ tripController.deleteTrip = async (req, res, next) => {
   }
 
   try {
-    const query = 'DELETE FROM trip WHERE id = $1 AND member_id = $2';
-    const tripDeleted = await Pool.query(query, [id, memberId]);
+    const query = 'DELETE FROM trip WHERE id = $1';
+    const tripDeleted = await Pool.query(query, [id]);
 
     if (tripDeleted.rowCount) next();
   } catch (error) {
