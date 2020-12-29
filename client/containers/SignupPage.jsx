@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import {
   FormHelperText,
   FormControl,
@@ -11,6 +11,7 @@ import {
   Text,
   LightMode,
   Flex,
+  useToast,
 } from '@chakra-ui/react';
 
 const SignupPage = () => {
@@ -25,9 +26,23 @@ const SignupPage = () => {
     verifyPassword: '',
   });
 
+  const history = useHistory();
+  const toast = useToast();
+
+  const [toastMessage, setToastMessage] = useState(undefined);
+
   useEffect(() => {
-    console.log(error);
-  }, [error]);
+    if (toastMessage) {
+      toast({
+        title: toastMessage.title,
+        description: toastMessage.description,
+        status: 'warning',
+        duration: toastMessage.duration,
+        isClosable: true,
+        position: 'bottom-left',
+      });
+    }
+  }, [toastMessage, toast]);
 
   const handleAllInputChange = (event) => {
     event.preventDefault();
@@ -55,7 +70,9 @@ const SignupPage = () => {
 
     const errorStatus = validate();
     console.log(errorStatus);
-
+    let title;
+    let description;
+    let duration;
     if (errorStatus) {
       fetch('/api/member/signup', {
         method: 'Post',
@@ -65,14 +82,23 @@ const SignupPage = () => {
         body: JSON.stringify(newUser),
       })
         .then((res) => {
-          console.log('fetch request with new user sent to server');
-          return res.json();
+          if (res.status === 200) {
+            history.push('/time/home');
+          } else {
+            console.log('in the else');
+            title = 'An error occured in the request to create new user';
+            description = 'There was a conflict. The username and/or email is registered already. Please try again with different credentials';
+            duration = 5000;
+            setToastMessage({ title, description, duration });
+          }
         })
-        .then((data) => console.log(data))
-        .catch((err) => console.log(
-          'An error occured in this fetch request to send new user',
-          err,
-        ));
+        .catch(() => {
+          console.log('in the catch');
+          title = 'Please try again';
+          description = 'An error occured at our end while processing request';
+          duration = 2000;
+          setToastMessage({ title, description, duration });
+        });
     }
   };
 
@@ -82,6 +108,7 @@ const SignupPage = () => {
         <Container
           border="1px solid silver"
           margin="auto"
+          mb="50px"
           mt="100px"
           maxW="300px"
           py="20px"
