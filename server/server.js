@@ -7,7 +7,7 @@ const passport = require('passport');
 const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
 const routeMember = require('./routes/member');
-
+const routeTrips = require('./routes/trips')
 
 /**
  * system config.
@@ -22,6 +22,7 @@ app.use(session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true,
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/member', routeMember);
+app.use('/api/trips', routeTrips);
 
 /**
  * Production app at localhost:3000.
