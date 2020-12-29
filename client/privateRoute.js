@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 import { useAuth } from './useAuth';
 
 const PrivateRoute = ({ children, ...rest }) => {
@@ -16,7 +17,7 @@ const PrivateRoute = ({ children, ...rest }) => {
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: location }
+              // state: { from: location }
             }}
           />
         )

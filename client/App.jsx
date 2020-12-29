@@ -6,6 +6,7 @@ import SignupPage from './containers/SignupPage';
 import HomePage from './containers/HomePage';
 import TimeHomePage from './containers/time/TimeHomePage';
 import PrivateRoute from './privateRoute';
+import NotFound from './containers/404';
 // import ResetPasswordPage from './containers/ResetPasswordPage';
 
 const App = (props) => (
@@ -16,6 +17,7 @@ const App = (props) => (
       <Route path="/signup" exact component={SignupPage} />
       {/* <Route path="/resetpassword" exact component={ResetPasswordPage} /> */}
       <PrivateRoute path="/time/home" exact component={TimeHomePage} />
+      <Route path="*" component={NotFound} />
     </Switch>
   </div>
 );

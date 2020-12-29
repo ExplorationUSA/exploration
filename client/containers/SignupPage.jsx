@@ -14,7 +14,10 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
+import { useAuth } from '../useAuth';
+
 const SignupPage = () => {
+  const auth = useAuth();
   const [newUser, setNewUserField] = useState({
     username: '',
     // useremail: '',
@@ -83,20 +86,15 @@ const SignupPage = () => {
       })
         .then((res) => {
           if (res.status === 200) {
-            history.push('/time/home');
-          } else {
-            console.log('in the else');
-            title = 'An error occured in the request to create new user';
-            description = 'There was a conflict. The username and/or email is registered already. Please try again with different credentials';
-            duration = 5000;
-            setToastMessage({ title, description, duration });
-          }
+            return res.json();
+          } 
+          return res.json().then((data) => { throw data });
         })
-        .catch(() => {
-          console.log('in the catch');
-          title = 'Please try again';
-          description = 'An error occured at our end while processing request';
-          duration = 2000;
+        .then((data) =>  auth.signInFunc(data.user.id, data.user.username, () => history.replace('/time/home')))
+        .catch((error) => {
+          title = 'Error';
+          description = `${error.err}`
+          duration = 9000;
           setToastMessage({ title, description, duration });
         });
     }
