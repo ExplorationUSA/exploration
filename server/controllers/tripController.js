@@ -69,7 +69,7 @@ tripController.getTrips = async (req, res, next) => {
       message: {
         err: 'Internal server error',
       },
-    });
+    }); 
   }
 };
 
