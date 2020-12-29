@@ -16,8 +16,11 @@ import {
 } from '@chakra-ui/react';
 
 import Footer from '../components/Footer';
+import { useAuth } from '../useAuth';
 
 const LoginPage = () => {
+  const auth = useAuth();
+
   // this sets the current state using the useState hook;
   const [currentUser, setCurrentUserField] = useState({
     username: '',
@@ -37,7 +40,7 @@ const LoginPage = () => {
         status: 'warning',
         duration: toastMessage.duration,
         isClosable: true,
-        position: 'bottom-left',
+        position: 'top',
       });
     }
   }, [toastMessage, toast]);
@@ -55,6 +58,7 @@ const LoginPage = () => {
     let title;
     let description;
     let duration;
+    
     fetch('/api/member/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -62,19 +66,17 @@ const LoginPage = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          history.push('/time/home');
-        } else {
-          title = 'credentials not found';
-          description = 'We could not find your username and/or password. Please try signing in instead';
-          duration = 1100;
-          setToastMessage({ title, description, duration });
-          history.push('/signup');
+          return res.json();
         }
+        return res.json().then((data) => { throw data });
+      })
+      .then((data) => {
+        auth.signInFunc(data.user.id, data.user.username, () => history.replace('/time/home'));
       })
       .catch((error) => {
-        title = `error code ${error.status}, something went wrong at our end`;
-        description = 'We were unable to find the page you requested, please try again';
-        duration = 5000;
+        title = 'error';
+        description = `${error.err}`;
+        duration = 9000;
         setToastMessage({ title, description, duration });
       });
   };

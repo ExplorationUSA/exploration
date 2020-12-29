@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import {
   Menu,
   MenuButton,
@@ -22,12 +24,17 @@ import { GrDirections } from 'react-icons/gr';
 // stateless functional component
 
 export default function NavBar() {
+
+  const history = useHistory();
   const handleSignOut = () => {
     fetch('/api/member/logout', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then((body) => console.log(body))
+      .then((body) => {
+        console.log(body);
+        history.push('/');
+      })
       .catch((error) => {
         console.error('Error:', error);
       });
