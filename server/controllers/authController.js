@@ -33,6 +33,7 @@ authController.authenticate = (req, res, next) => {
         });
       }
       res.locals.message = 'Successful Login';
+      res.locals.user = user;
       return next();
     });
   })(req, res, next);
