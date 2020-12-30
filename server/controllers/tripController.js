@@ -36,7 +36,6 @@ tripController.createTrip = async (req, res, next) => {
       endDate,
       memberId,
     ]);
-    console.log(trip);
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
@@ -137,8 +136,6 @@ tripController.updateTrip = async (req, res, next) => {
 };
 
 tripController.deleteTrip = async (req, res, next) => {
-  //TODO: Must delete all activities related to trip to avoid foreign key constraint 
-
   const { id } = req.params;
 
   if (!id) {
@@ -152,6 +149,8 @@ tripController.deleteTrip = async (req, res, next) => {
   }
 
   try {
+    const activityQuery = 'DELETE FROM activity WHERE trip_id = $1';
+    const activitiesDeleted = await Pool.query(activityQuery, [id]);
     const query = 'DELETE FROM trip WHERE id = $1';
     const tripDeleted = await Pool.query(query, [id]);
 
