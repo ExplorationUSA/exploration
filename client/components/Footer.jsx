@@ -12,7 +12,6 @@ const Footer = () => (
     border="1px"
     borderColor="teal.100"
     background="teal.50"
-    position="fixed"
     left="0px"
     bottom="0px"
     height="12%"

@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+
+import { useHistory } from 'react-router-dom';
 
 import {
   Menu,
@@ -14,25 +18,33 @@ import {
   Icon,
 } from '@chakra-ui/react';
 
+// import { RiAddCircleFill } from 'react-icons/ri';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 import { GrDirections } from 'react-icons/gr';
 // import { IconContext } from 'react-icons';
+import { useAuth } from '../useAuth';
 
 // stateless functional component
 
 export default function NavBar() {
+  const auth = useAuth();
+  const history = useHistory();
+
   const handleSignOut = () => {
     fetch('/api/member/logout', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then((body) => console.log(body))
+      .then((res) => {
+        if (res.status === 200) {
+          auth.signOutFunc(() => history.push('/'));
+        }
+      })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
-
   return (
     <>
       <Box border="1px" borderColor="cyan.400" background="cyan.300">
@@ -78,6 +90,7 @@ export default function NavBar() {
             >
               Log Out
             </Button>
+            <Text>Logged in as {auth.user.userName}</Text>
           </GridItem>
         </Grid>
       </Box>

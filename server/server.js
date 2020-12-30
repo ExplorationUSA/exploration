@@ -3,6 +3,8 @@ const path = require('path');
 const session = require('express-session');
 
 const app = express();
+const fetch = require('node-fetch');
+
 const passport = require('passport');
 const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
@@ -20,14 +22,14 @@ const PORT = 3000;
  */
 app.use(express.json());
 
-// app.use(
-//   session({
-//     secret: SESSION_SECRET,
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
-//   })
-// );
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -40,13 +42,24 @@ app.use('/api/trips', routeTrips);
 app.use('/api/yelp', routeYelp);
 
 /**
+ * Fetch place images from Google API.
+ */
+app.get('/imagefetch/:url', (req, res) => {
+  fetch(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.url}&fields=photos&key=AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8`
+  )
+    .then((response) => response.json())
+    .then((body) => res.json(body));
+});
+
+/**
  * Production app at localhost:3000.
  * serve all files from dist folder.
  */
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../dist/')));
 
-  app.get('/', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
