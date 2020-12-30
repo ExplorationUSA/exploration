@@ -30,11 +30,14 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "framer-motion": "^3.1.1",
+    "node-fetch": "^2.6.1",
+    "only": "0.0.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-google-places-autocomplete": "^3.0.0",
     "react-icons": "^4.1.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
@@ -45,6 +48,7 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
+    "@webpack-cli/serve": "^1.2.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
@@ -66,6 +70,7 @@
     "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-serve": "^3.2.0"
+    "webpack-serve": "^3.2.0",
+    "yelp-fusion": "^3.0.0"
   }
 }
