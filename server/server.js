@@ -3,6 +3,8 @@ const path = require('path');
 const session = require('express-session');
 
 const app = express();
+const fetch = require('node-fetch');
+
 const passport = require('passport');
 const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
@@ -36,6 +38,17 @@ app.use(passport.session());
  */
 app.use('/api/member', routeMember);
 app.use('/api/trips', routeTrips);
+
+/**
+ * Fetch place images from Google API.
+ */
+app.get('/imagefetch/:url', (req, res) => {
+  fetch(
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${req.params.url}&fields=photos&key=AIzaSyCftYGY9WZGwrfAtDLsFR7DKplydOraNw8`
+  )
+    .then((response) => response.json())
+    .then((body) => res.json(body));
+});
 
 /**
  * Production app at localhost:3000.
