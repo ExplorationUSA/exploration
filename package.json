@@ -31,6 +31,7 @@
     "express-session": "^1.17.1",
     "framer-motion": "^3.1.1",
     "node-fetch": "^2.6.1",
+    "only": "0.0.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
@@ -69,6 +70,7 @@
     "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-serve": "^3.2.0"
+    "webpack-serve": "^3.2.0",
+    "yelp-fusion": "^3.0.0"
   }
 }

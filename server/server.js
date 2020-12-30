@@ -10,6 +10,7 @@ const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
 const routeMember = require('./routes/member');
 const routeTrips = require('./routes/trips');
+const routeYelp = require('./routes/yelp');
 
 /**
  * system config.
@@ -38,6 +39,7 @@ app.use(passport.session());
  */
 app.use('/api/member', routeMember);
 app.use('/api/trips', routeTrips);
+app.use('/api/yelp', routeYelp);
 
 /**
  * Fetch place images from Google API.
