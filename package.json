@@ -66,6 +66,7 @@
     "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-serve": "^3.2.0"
+    "webpack-serve": "^3.2.0",
+    "yelp-fusion": "^3.0.0"
   }
 }

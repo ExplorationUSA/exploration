@@ -8,6 +8,7 @@ const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
 const routeMember = require('./routes/member');
 const routeTrips = require('./routes/trips');
+const routeYelp = require('./routes/yelp');
 
 /**
  * system config.
@@ -19,14 +20,14 @@ const PORT = 3000;
  */
 app.use(express.json());
 
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
-    cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
-  })
-);
+// app.use(
+//   session({
+//     secret: SESSION_SECRET,
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
+//   })
+// );
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,6 +37,7 @@ app.use(passport.session());
  */
 app.use('/api/member', routeMember);
 app.use('/api/trips', routeTrips);
+app.use('/api/yelp', routeYelp);
 
 /**
  * Production app at localhost:3000.
