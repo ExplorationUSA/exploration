@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+// import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 import { useHistory } from 'react-router-dom';
 
@@ -16,11 +18,13 @@ import {
   Icon,
 } from '@chakra-ui/react';
 
+// import { RiAddCircleFill } from 'react-icons/ri';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
 import { GrDirections } from 'react-icons/gr';
 // import { IconContext } from 'react-icons';
 import { useAuth } from '../useAuth';
+
 // stateless functional component
 
 export default function NavBar() {
