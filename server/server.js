@@ -8,6 +8,8 @@ const passConfig = require('./passport.config');
 const { SESSION_SECRET } = require('./config');
 const routeMember = require('./routes/member');
 const routeTrips = require('./routes/trips');
+const routeActivity = require('./routes/activity');
+
 
 /**
  * system config.
@@ -36,6 +38,8 @@ app.use(passport.session());
  */
 app.use('/api/member', routeMember);
 app.use('/api/trips', routeTrips);
+
+app.use('/api/activity', routeActivity);
 
 /**
  * Production app at localhost:3000.
