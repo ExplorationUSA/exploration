@@ -16,10 +16,6 @@ const useProvideAuth = () => {
     });
     cb();
   };
-  return { user, signInFunc, signOutFunc };
-};
-
-export function ProvideAuth({ children }) {
   useEffect(() => {
     fetch('/api/member/status')
       .then((res) => {
@@ -41,6 +37,10 @@ export function ProvideAuth({ children }) {
     return () => {
     };
   }, []);
+  return { user, signInFunc, signOutFunc };
+};
+
+export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
