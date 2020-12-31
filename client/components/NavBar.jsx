@@ -14,8 +14,6 @@ import {
   Icon,
 } from '@chakra-ui/react';
 
-import { ChevronDownIcon } from '@chakra-ui/icons';
-
 import { GrDirections } from 'react-icons/gr';
 // import { IconContext } from 'react-icons';
 

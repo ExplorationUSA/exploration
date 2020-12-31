@@ -1,21 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 import {
-  Text, Box, Grid, GridItem,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Flex,
+  Button,
+  FormControl,
+  Stack,
+  Text,
+  Box,
+  Grid,
+  GridItem,
+  Select,
+  Input,
 } from '@chakra-ui/react';
 
-const MyActivities = (props) => (
-  <Box borderWidth="5px" borderColor="gray.700" overflow="hidden">
-    <Grid templateColumns="repeat(1, 1fr)" templateRows="repeat(12, 1fr)">
-      <GridItem>
-        <Text align="center" color="gray.900" mt="5%" fontSize="3xl">
-          Name's Plans
-        </Text>
-      </GridItem>
-      <GridItem />
+import { AiFillCompass } from 'react-icons/ai';
 
-    </Grid>
-  </Box>
-);
+const MyActivities = (props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+
+  return (
+    <>
+      <Flex justifyContent="center">
+        <Button
+          ref={btnRef}
+          onClick={onOpen}
+          rightIcon={<AiFillCompass />}
+          colorScheme="teal"
+          size="md"
+        >
+          My Activities
+        </Button>
+      </Flex>
+
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size="lg"
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader background="teal.50" fontSize="2xl">
+              My Activities in
+            </DrawerHeader>
+
+            <DrawerBody />
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+    </>
+  );
+};
 
 export default MyActivities;

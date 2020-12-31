@@ -1,25 +1,12 @@
 import React, { Component } from 'react';
 
 import {
-  useDisclosure,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   Flex,
-  Button,
-  FormControl,
   Image,
   Text,
   Box,
   Grid,
   GridItem,
-  VStack,
-  StackDivider,
-  Container,
-  Heading,
 } from '@chakra-ui/react';
 
 const TripPlanned = (props) => {
