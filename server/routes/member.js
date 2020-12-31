@@ -24,4 +24,8 @@ route.get('/logout', authController.logout, (req, res) => {
   res.status(200).json({ message: res.locals.message });
 });
 
+route.get('/status', authController.isAuthenticated, (req, res) => {
+  res.status(200).json({ message: 'ok', user: req.user });
+});
+
 module.exports = route;
