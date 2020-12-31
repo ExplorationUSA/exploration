@@ -49,7 +49,7 @@ const LoginPage = () => {
     event.preventDefault();
     const { name, value } = event.target;
     setCurrentUserField({ ...currentUser, [name]: value });
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
     // backend function passed down in props that will take the currentUser as input;
 

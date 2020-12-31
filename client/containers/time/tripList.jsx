@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import {
   useDisclosure,
   Drawer,
@@ -22,7 +24,9 @@ import {
 } from '@chakra-ui/react';
 import TripPlanned from '../../components/tripComponent';
 
-const TripListContainer = (props) => (
+const TripListContainer = ({trips}) => {
+console.log('trip list', trips);
+  return (
   <>
     <Box
       p={5}
@@ -34,31 +38,34 @@ const TripListContainer = (props) => (
       mb={10}
       mr={(0, 50, 200)}
       ml={(0, 50, 200)}
-    >
+      >
       <VStack
         divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
         align="stretch"
-      >
-        {props.trips.map((tempTrip) => (
+        >
+        {trips.map(({id, title, destination, start_date, end_date, place_id}) => (
           <>
             <Grid>
               <GridItem>
                 <Text textAlign="center" color="gray.800" fontSize="2xl">
-                  {tempTrip.tripName}
+                  {title}
                 </Text>
               </GridItem>
               <GridItem>
                 <TripPlanned
-                  key={props.trips.indexOf(tempTrip)}
-                  trips={tempTrip}
-                />
+                  key={`trip_${id}`}
+                  trip={{ destination, start_date, end_date, place_id }}
+                  />
               </GridItem>
               <GridItem>
                 <Flex justify="center">
-                  <Button colorScheme="blue">
-                    Explore {tempTrip.location}
-                  </Button>
+                  {/* <Link to={`/time/${tempTrip.location.label}`}> */}
+                  <Link to={{ pathname: `/time/trip/${id}` }}>
+                    {/* <Button type="submit" onClick={handle}> */}
+                      Explore<Text ml="1px">  {destination}</Text>
+                    {/* </Button> */}
+                  </Link>
                 </Flex>
               </GridItem>
             </Grid>
@@ -66,7 +73,8 @@ const TripListContainer = (props) => (
         ))}
       </VStack>
     </Box>
-  </>
-);
+    </>
+  )
+};
 
 export default TripListContainer;
