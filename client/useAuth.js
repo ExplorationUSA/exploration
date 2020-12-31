@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState} from 'react';
+import React, { useContext, createContext, useState, useEffect } from 'react';
 
 const authContext = createContext();
 
@@ -20,7 +20,27 @@ const useProvideAuth = () => {
 };
 
 export function ProvideAuth({ children }) {
-  // const authContext = createContext();
+  useEffect(() => {
+    fetch('/api/member/status')
+      .then((res) => {
+        if (res.status === 200) return res.json();
+        return res.json().then((data) => {
+          throw data;
+        });
+      })
+      .then(({ message, user}) => {
+        console.log('load user on refresh', user);
+        setUser({
+          ...user,
+          userId: user.id,
+          userName: user.username,
+          isAuthenticated: true,
+  });
+      })
+      .catch((error) => console.log(error));
+    return () => {
+    };
+  }, []);
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };
