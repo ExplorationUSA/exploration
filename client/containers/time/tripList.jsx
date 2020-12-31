@@ -61,7 +61,7 @@ console.log('trip list', trips);
               <GridItem>
                 <Flex justify="center">
                   {/* <Link to={`/time/${tempTrip.location.label}`}> */}
-                  <Link to={{ pathname: `/time/trip/${id}` }}>
+                  <Link to={{ pathname: `/time/trip/${id}`, state: { param: `${id}` } }}>
                     {/* <Button type="submit" onClick={handle}> */}
                       Explore<Text ml="1px">  {destination}</Text>
                     {/* </Button> */}

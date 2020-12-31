@@ -1,8 +1,9 @@
 import React from 'react';
 
-const EachActivity = () => (
-  <div>
-    hi
-  </div>
-);
+const EachActivity = (props) => {
+  console.log('in each activity', props);
+  return (
+    <div>hi</div>
+  );
+};
 export default EachActivity;

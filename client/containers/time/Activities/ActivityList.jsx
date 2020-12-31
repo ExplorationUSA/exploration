@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import EachActivity from './EachActivity';
@@ -10,6 +11,8 @@ class ActivityList extends Component {
   }
 
   componentDidMount() {
+    // console.log(this.props.location.state.param);
+    console.log('props',this.props.location.state.param);
     const tripId = this.props.location.state.param;
     console.log('LOcation state params all new', tripId);
     fetch(`api/activity/${tripId}`)
@@ -23,17 +26,21 @@ class ActivityList extends Component {
   }
 
   render() {
-    {console.log("state", this.state)}
-    const allActivities = this.state.activities;
-    console.log(allActivities);
-  //   {allActivities.map(({id, image_url, location, rating, review_count, title, trip_id, url}) => 
-  //     return(
-  //       <div>
-  //       <EachActivity id={id} imageURL={image_url} location={location} rating={rating} reviewCount={review_count} title={title} tripID={trip_id} url={url}/>
-  //       </div>
-  //     )
-  // )};
+    // {console.log("state", this.state)}
+    // const allActivities = this.state.activities;
+    // console.log(allActivities);
+    // return (
+    //   <div>
+    //     {allActivities.map(({id, image_url, location, rating, review_count, title, trip_id, url}) => <div>
+    //         <EachActivity id={id} imageURL={image_url} location={location} rating={rating} reviewCount={review_count} title={title} tripID={trip_id} url={url} />                                                                                            </div>
+    //       )
+    //     };
+    //   </div>
+    return (
+      <div>
+        <EachActivity/>
+      </div>
+    );
 }
 }
-
 export default withRouter(ActivityList);
