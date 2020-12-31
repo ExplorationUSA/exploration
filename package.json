@@ -41,7 +41,8 @@
     "react-icons": "^4.1.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-use-disclosure": "^1.5.0"
+    "react-use-disclosure": "^1.5.0",
+    "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -70,7 +71,6 @@
     "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-serve": "^3.2.0",
-    "yelp-fusion": "^3.0.0"
+    "webpack-serve": "^3.2.0"
   }
 }
