@@ -1,10 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import EachActivity from './EachActivity';
 
-const ActivityList = () => (
+class ActivityList extends Component {
   // fetch using the location name and then map each item in one activity
-  <div>
-    <EachActivity />
-  </div>
-);
-export default ActivityList;
+  constructor(props) {
+    super(props);
+    this.state = { activities: [] };
+  }
+
+  componentDidMount() {
+    const tripId = this.props.location.state.param;
+    console.log('LOcation state params all new', tripId);
+    fetch(`api/activity/${tripId}`)
+      .then((result) => result.json())
+      .then((data) => {
+        console.log('all available activities', data);
+        return data;
+      })
+      .then(({ activities }) => this.setState({ ...this.state, activities }))
+      .catch((err) => console.log(err));
+  }
+
+  render() {
+    {console.log("state", this.state)}
+    const allActivities = this.state.activities;
+    console.log(allActivities);
+  //   {allActivities.map(({id, image_url, location, rating, review_count, title, trip_id, url}) => 
+  //     return(
+  //       <div>
+  //       <EachActivity id={id} imageURL={image_url} location={location} rating={rating} reviewCount={review_count} title={title} tripID={trip_id} url={url}/>
+  //       </div>
+  //     )
+  // )};
+}
+}
+
+export default withRouter(ActivityList);
