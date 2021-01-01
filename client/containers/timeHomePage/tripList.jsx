@@ -36,7 +36,7 @@ const TripListContainer = (props) => (
                 <Text textAlign="center" color="gray.800" fontSize="2xl">{tempTrip.tripName}</Text>
               </GridItem>
               <GridItem>
-                <TripPlanned key={props.trips.indexOf(tempTrip)} trips={tempTrip} />
+                <TripPlanned key={props.trips.indexOf(tempTrip)} trip={tempTrip} />
               </GridItem>
               <GridItem>
                 <Flex justify="center">

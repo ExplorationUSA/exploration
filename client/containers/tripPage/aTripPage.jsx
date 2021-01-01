@@ -16,7 +16,6 @@ import TripPageIntroText from '../../components/tripPageIntroText';
 import Footer from '../../components/Footer';
 import Activity from '../../components/activityComponent';
 import ActivitiesList from './activitiesList';
-import MyActivities from '../../components/MyActivities';
 import "@babel/polyfill";
 
 
@@ -39,11 +38,7 @@ class TripPage extends Component {
             <TripPageIntroText 
             trip = {this.props.trips}/>
           </GridItem>
-          <GridItem colSpan={1}>
-            <Flex align="center">
-              <MyActivities />
-            </Flex>
-          </GridItem>
+
           <GridItem>
             <ActivitiesList />
           </GridItem>

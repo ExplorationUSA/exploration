@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react';
 
 const TripPlanned = (props) => {
-  const max = props.trips.locationPhotos.length;
+  const max = 8;
   const randPhoto = Math.floor(Math.random() * (max + 1) + 0) - 1;
-  console.log(randPhoto);
-  const photo = props.trips.locationPhotos[randPhoto];
-  console.log(photo, props.trips.location, props.trips.tripStart, props.trips.tripEnd);
+  console.log(randPhoto, 'location photos: ', props.trip.locationphotos);
+  const photo = props.trip.locationphotos[randPhoto];
+  console.log(photo, props.trip.location, props.trip.tripStart, props.trip.tripEnd);
   return (
     <>
       <Box borderWidth="1px" borderRadius="lg">
@@ -37,17 +37,17 @@ const TripPlanned = (props) => {
           </GridItem>
           <GridItem rowSpan={2} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Going to:</Text>
-            <Text fontSize="2xl" color="gray.800">{props.trips.location}</Text>
+            <Text fontSize="2xl" color="gray.800">{props.trip.location}</Text>
           </GridItem>
           <GridItem rowSpan={1} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Starting</Text>
-            <Text fontSize="2xl" color="gray.800">{props.trips.tripStartFrontEnd}</Text>
+            <Text fontSize="2xl" color="gray.800">{props.trip.tripStartFrontEnd}</Text>
           </GridItem>
-          {props.trips.datesKnown === 'day' || props.trips.datesKnown === 'month' &&
+          {props.trip.datesKnown === 'day' || props.trip.datesKnown === 'month' &&
           (
           <GridItem rowSpan={1} colSpan={1}>
             <Text fontSize="xl" color="gray.800">Ending</Text>
-            <Text fontSize="2xl" color="gray.800">{props.trips.tripEndFrontEnd}</Text>
+            <Text fontSize="2xl" color="gray.800">{props.trip.tripEndFrontEnd}</Text>
           </GridItem>
           )
 }

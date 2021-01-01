@@ -5,6 +5,8 @@ import Footer from '../../components/Footer';
 import IntroText from '../../components/IntroText';
 import NewTripDrawer from '../../components/NewTrip';
 import TripListContainer from './tripList';
+import "@babel/polyfill";
+
 
 
 class TimeHomePage extends Component {
@@ -30,11 +32,13 @@ class TimeHomePage extends Component {
     (datesKnown === 'day' || datesKnown === 'month') ? tripStartFrontEnd = tripStart.toLocaleDateString("en-US") : tripStartFrontEnd = "Soon!";
     (datesKnown === 'day' || datesKnown === 'month') ? tripEndFrontEnd = tripEnd.toLocaleDateString("en-US") : tripEndFrontEnd = "Soon!"
 
-    const newTrip = { locationPhotos : photos, location : location.label, place_id : location.value.place_id, tripStartFrontEnd: tripStartFrontEnd, tripEndFrontEnd : tripStartFrontEnd, tripStartBackEnd: tripStart, tripEndBackEnd: tripEnd, datesKnown : datesKnown, tripName: tripName};
+
+
+    const newTrip = { locationphotos : photos, location : location.label, place_id : location.value.place_id, tripStartFrontEnd: tripStartFrontEnd, tripEndFrontEnd : tripStartFrontEnd, tripStartBackEnd: tripStart, tripEndBackEnd: tripEnd, datesKnown : datesKnown, tripName: tripName};
     const trips = [...this.props.trips];
     trips.push(newTrip);
     this.props.handleNewTrip(trips);
-    this.handleTripToBackEnd(tripName, location, location.value.place_id, tripStart, tripEnd)
+    this.handleTripToBackEnd(tripName, location, location.value.place_id, tripStart, tripEnd, photos, datesKnown)
   })
     .catch((error) => {
         console.error('Error:', error);
@@ -42,8 +46,9 @@ class TimeHomePage extends Component {
 
   }
 
-  handleTripToBackEnd = (tripName, location, place_id, tripStartBackEnd, tripEndBackEnd) => {
-    const newTripForBackEnd = {title : tripName, destination : location, placeId : place_id, startDate : tripStartBackEnd, endDate : tripEndBackEnd }
+  handleTripToBackEnd = (tripName, location, place_id, tripStartBackEnd, tripEndBackEnd, photos, datesKnown) => {
+    console.log('in handle back end: ', tripName, location.label, place_id, tripStartBackEnd, tripEndBackEnd);
+    const newTripForBackEnd = {title : tripName, destination : location.label, placeId : place_id, startDate : tripStartBackEnd, endDate : tripEndBackEnd, locationphotos : photos, dates_known : datesKnown }
     fetch('/api/trips/', {
       method: 'POST', 
       headers: {
@@ -60,6 +65,36 @@ class TimeHomePage extends Component {
     });
     }
   
+    componentDidMount() {
+      fetch('/api/trips/', {
+        method: "GET",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.json())
+      .then((result) => {
+        const {trips} = result;
+        const emptyTrip =[];
+        trips.forEach(trip => {
+          const newTrip = {}
+          newTrip.location = trip.destination
+          newTrip.tripName = trip.title
+          newTrip.place_id = trip.placeId
+          newTrip.tripStartFrontEnd = trip.tripstart
+          newTrip.tripEndFrontEnd = trip.tripend
+          newTrip.locationphotos = trip.locationphotos
+          newTrip.datesKnown = trip.dates_known
+          console.log('post conversion ', newTrip)
+          emptyTrip.push(newTrip);
+        });
+        console.log(emptyTrip, 'old trip ', trips);
+        this.props.handleStateUpdate(emptyTrip);
+  })
+}
+  
+
 
   render() {
     console.log(this.props.trips)
