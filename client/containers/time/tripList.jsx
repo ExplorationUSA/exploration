@@ -25,7 +25,18 @@ import {
 } from '@chakra-ui/react';
 import TripPlanned from '../../components/tripComponent';
 
-const TripListContainer = ({ trips, deleteTripHandler }) => {
+const TripListContainer = ({ trips, deleteTripHandler, message }) => {
+  const toast = createStandaloneToast();
+    // if(!message) {
+    //   toast({
+    //     title: '',
+    //     description: `${message}`,
+    //     status: 'success',
+    //     duration: 9000,
+    //     isClosable: true,
+    //     position: 'top',
+    // })};
+
   return (
   <>
     <Box

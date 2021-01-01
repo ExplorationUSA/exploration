@@ -12,7 +12,8 @@ class TimeHomePage extends Component {
     super(props);
 
     this.state = {
-      trips: []
+      trips: [],
+      message: '',
     };
     this.deleteTripHandler = this.deleteTripHandler.bind(this);
   }
@@ -43,14 +44,8 @@ class TimeHomePage extends Component {
       });
     })
     .then((data) => {
-      this.setState({ trips: this.state.trips.filter((el) => el.id !== deleteTripId)});
-      toast({
-        title: '',
-        description: `${data.message}`,
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
+      this.setState({ trips: this.state.trips.filter((el) => el.id !== deleteTripId), message: data.message });
+     
     })
     .catch((error) => {
       console.log(error);
@@ -63,7 +58,7 @@ class TimeHomePage extends Component {
         <NavBar />
         <IntroText />
         {/* <NewTripDrawer handleNewTrip = {handleNewTrip} /> */}
-        <TripListContainer deleteTripHandler={this.deleteTripHandler} trips = {this.state.trips} />
+        <TripListContainer deleteTripHandler={this.deleteTripHandler} trips = {this.state.trips} message={this.state.message}/>
         <Footer />
       </>
     );
