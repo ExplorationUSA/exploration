@@ -3,7 +3,7 @@ import React, { useContext, createContext, useState, useEffect } from 'react';
 const authContext = createContext();
 
 const useProvideAuth = () => {
-  const [user, setUser] = useState({userId: null, userName: '', isAuthenticated: false });
+  const [user, setUser] = useState({ userId: null, userName: '', isAuthenticated: false });
   const signInFunc = (userId, userName, cb) => {
     setUser({
       ...user, userId, userName, isAuthenticated: true,
@@ -31,7 +31,7 @@ const useProvideAuth = () => {
           userId: user.id,
           userName: user.username,
           isAuthenticated: true,
-  });
+  }); 
       })
       .catch((error) => console.log(error));
     return () => {
