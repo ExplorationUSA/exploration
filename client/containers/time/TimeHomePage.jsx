@@ -14,17 +14,47 @@ class TimeHomePage extends Component {
     this.state = {
       trips: []
     };
+    this.deleteTripHandler = this.deleteTripHandler.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/trips/')
         .then(res => res.json())
         .then((result) => {
-          console.log('data trip list', result);
-          this.setState({ ...this.state, trips: result.trips });
-          console.log('state', this.state);
+          this.setState({ trips: result.trips });
+
         })
         .catch(err => console.log(err));
+  }
+
+  deleteTripHandler(event) {
+    const deleteTripId = Number(event.target.id);
+    console.log('delete Trip Id', deleteTripId);
+    fetch(`/api/trips/${deleteTripId}`, {
+      method: 'DELETE',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+    })
+    .then((res) => {
+      if (res.status === 200) return res.json();
+      return res.json().then((data) => {
+        throw data;
+      });
+    })
+    .then((data) => {
+      this.setState({ trips: this.state.trips.filter((el) => el.id !== deleteTripId)});
+      toast({
+        title: '',
+        description: `${data.message}`,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
 
   render() {
@@ -33,7 +63,7 @@ class TimeHomePage extends Component {
         <NavBar />
         <IntroText />
         {/* <NewTripDrawer handleNewTrip = {handleNewTrip} /> */}
-        <TripListContainer trips = {this.state.trips} />
+        <TripListContainer deleteTripHandler={this.deleteTripHandler} trips = {this.state.trips} />
         <Footer />
       </>
     );

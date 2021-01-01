@@ -1,7 +1,8 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
+  createStandaloneToast,
   useDisclosure,
   Drawer,
   DrawerBody,
@@ -24,8 +25,7 @@ import {
 } from '@chakra-ui/react';
 import TripPlanned from '../../components/tripComponent';
 
-const TripListContainer = ({trips}) => {
-console.log('trip list', trips);
+const TripListContainer = ({ trips, deleteTripHandler }) => {
   return (
   <>
     <Box
@@ -38,13 +38,13 @@ console.log('trip list', trips);
       mb={10}
       mr={(0, 50, 200)}
       ml={(0, 50, 200)}
-      >
+    >
       <VStack
         divider={<StackDivider borderColor="gray.200" />}
         spacing={4}
         align="stretch"
-        >
-        {trips.map(({id, title, destination, start_date, end_date, place_id}) => (
+      >
+        {trips.map(({ id, title, destination, start_date, end_date, place_id }) => (
           <>
             <Grid>
               <GridItem>
@@ -56,16 +56,14 @@ console.log('trip list', trips);
                 <TripPlanned
                   key={`trip_${id}`}
                   trip={{ destination, start_date, end_date, place_id }}
-                  />
+                />
               </GridItem>
               <GridItem>
                 <Flex justify="center">
-                  {/* <Link to={`/time/${tempTrip.location.label}`}> */}
                   <Link to={{ pathname: `/time/trip/${id}`, state: { param: `${id}` } }}>
-                    {/* <Button type="submit" onClick={handle}> */}
-                      Explore<Text ml="1px">  {destination}</Text>
-                    {/* </Button> */}
+                      Explore<Text ml="1px">  {destination}</Text>    
                   </Link>
+                  <Button id={id} type="button" onClick={deleteTripHandler}>Delete trip</Button>
                 </Flex>
               </GridItem>
             </Grid>
@@ -73,8 +71,8 @@ console.log('trip list', trips);
         ))}
       </VStack>
     </Box>
-    </>
-  )
+  </>
+  );
 };
 
 export default TripListContainer;
