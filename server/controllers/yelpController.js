@@ -7,7 +7,7 @@ const yelpController = {};
 
 yelpController.getActivities = async (req, res, next) => {
     const { categories, location } = req.body;
-
+    console.log('API_KEY', API_KEY)
     const searchRequest = {
         categories,
         location

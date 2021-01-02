@@ -76,7 +76,7 @@ const LoginPage = () => {
       .catch((error) => {
         title = 'error';
         description = `${error.err}`;
-        duration = 9000;
+        duration = 9000;n
         setToastMessage({ title, description, duration });
       });
   };

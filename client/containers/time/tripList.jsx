@@ -7,7 +7,7 @@ import {
   Drawer,
   DrawerBody,
   DrawerHeader,
-  DrawerOverlay,
+  DrawterOverlay,
   DrawerContent,
   DrawerCloseButton,
   Flex,
@@ -37,6 +37,7 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
     //     position: 'top',
     // })};
 
+  console.log(trips);
   return (
   <>
     <Box
@@ -55,26 +56,31 @@ const TripListContainer = ({ trips, deleteTripHandler, message }) => {
         spacing={4}
         align="stretch"
       >
-        {trips.map(({ id, title, destination, start_date, end_date, place_id }) => (
+        {trips.map(({ id, tripName, location, tripStartFrontEnd, tripEndFrontEnd, place_id, datesKnown }) => (
+          
           <>
-            <Grid>
+            <Grid key = {id}>
               <GridItem>
                 <Text textAlign="center" color="gray.800" fontSize="2xl">
-                  {title}
+                  {tripName}
                 </Text>
               </GridItem>
               <GridItem>
                 <TripPlanned
                   key={`trip_${id}`}
-                  trip={{ destination, start_date, end_date, place_id }}
+                  trip={{ location, tripStartFrontEnd, tripEndFrontEnd, place_id, datesKnown }}
                 />
               </GridItem>
               <GridItem>
                 <Flex justify="center">
-                  <Link to={{ pathname: `/time/trip/${id}`, state: { param: `${id}` } }}>
-                      Explore<Text ml="1px">  {destination}</Text>    
-                  </Link>
-                  <Button id={id} type="button" onClick={deleteTripHandler}>Delete trip</Button>
+                 
+                  {/* <Button m={2} colorScheme="blue" onClick = {()=>console.log('clicked')}> */}
+                    <Link to={{ pathname: `/time/trip/${id}`, state: { param: `${id}` } }}>
+                      Explore {location}
+                    </Link>
+                  {/* </Button>  */}
+
+                  <Button m={2} id={id} type="button" onClick={deleteTripHandler}>Delete trip</Button>
                 </Flex>
               </GridItem>
             </Grid>
