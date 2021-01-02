@@ -57,8 +57,8 @@ export default function NavBar() {
               </Text>
             </Button>
           </GridItem>
-          <GridItem colStart={4} colEnd={6}>
-            <Menu>
+          <GridItem>
+            {/* <Menu>
               <MenuButton
                 fontSize={{ base: '15px', md: '18px', lg: '20px' }}
                 colorScheme="cyan"
@@ -76,21 +76,31 @@ export default function NavBar() {
                   <span>Trip 1</span>
                 </MenuItem>
               </MenuList>
-            </Menu>
-            <Button
-              m={2}
-              fontSize={{ base: '15px', md: '18px', lg: '20px' }}
-              align="right"
-              colorScheme="purple"
-              variant="solid"
-              borderRadius="full"
-              boxShadow="base"
-              verticalAlign="right"
-              onClick={handleSignOut}
-            >
-              Log Out
-            </Button>
-            <Text>Logged in as {auth.user.userName}</Text>
+            </Menu> */}
+
+            <Grid templateColumns="repeat(2, 1fr)">
+              <GridItem>
+                <Text align="center" m={5} fontSize="sm" fontWeight={600}>
+                  Logged in as {auth.user.userName}
+                </Text>
+              </GridItem>
+              <GridItem>
+                <Button
+                  m={2}
+                  // fontSize={{ base: '15px', md: '18px', lg: '20px' }}
+                  // align="right"
+                  iconSpacing={0}
+                  colorScheme="red"
+                  variant="solid"
+                  // borderRadius="full"
+                  boxShadow="base"
+                  // verticalAlign="right"
+                  onClick={handleSignOut}
+                >
+                  Log Out
+                </Button>
+              </GridItem>
+            </Grid>
           </GridItem>
         </Grid>
       </Box>

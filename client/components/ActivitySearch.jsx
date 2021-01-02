@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   createStandaloneToast,
@@ -7,10 +7,14 @@ import {
   Text,
   Button,
   Input,
-} from "@chakra-ui/react";
+  Flex,
+  Box,
+  Spacer,
+  Heading,
+} from '@chakra-ui/react';
 
 const ActivitySearch = (props) => {
-  const [searchField, setSearchField] = useState("");
+  const [searchField, setSearchField] = useState('');
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -19,14 +23,31 @@ const ActivitySearch = (props) => {
 
   return (
     <>
-      <Text align="center" color="gray.900" mt="5%" fontSize="2xl" mb="8px">Search Activities </Text>
-      <Input
-        placeholder="Food, Parks, Museums, Music, Sports, etc."
-        size="lg"
-        value={searchField}
-        onChange={(e) => setSearchField(e.target.value)}
-      />
-      <Button onClick={handleSearch}>Search</Button>
+      <Heading align="center" color="gray.900" fontSize="2xl" mb="8px">
+        Search Activities
+      </Heading>
+      <Flex paddingX={40}>
+        <Box flex="2">
+          <Input
+            placeholder="Food, Parks, Museums, Music, Sports, etc."
+            size="lg"
+            colorScheme="white"
+            bg="white"
+            value={searchField}
+            onChange={(e) => setSearchField(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Button
+            onClick={handleSearch}
+            colorScheme="blue"
+            size="lg"
+            marginLeft={2}
+          >
+            Search
+          </Button>
+        </Box>
+      </Flex>
     </>
   );
 };
