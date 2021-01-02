@@ -150,7 +150,7 @@ const LoginPage = () => {
             <Button colorScheme="purple"><Text fontSize="12px">Login with Google</Text></Button>
           </Flex> */}
           <Container>
-            <Flex ml="30px" maxW="180px" justifyContent="space-between">
+            <Flex justifyContent="space-between" padding={5}>
               <Text fontSize="12px">Do not have an account?</Text>
               <NavLink to="/signup">
                 <Text fontSize="12px" textDecoration="underline">
