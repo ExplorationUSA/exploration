@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 import {
   FormHelperText,
   FormControl,
@@ -12,21 +12,21 @@ import {
   LightMode,
   Flex,
   useToast,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
-import { useAuth } from '../useAuth';
+import { useAuth } from "../useAuth";
 
 const SignupPage = () => {
   const auth = useAuth();
   const [newUser, setNewUserField] = useState({
-    username: '',
+    username: "",
     // useremail: '',
-    password: '',
-    confirmedUserPassword: '',
+    password: "",
+    confirmedUserPassword: "",
   });
 
   const [error, setError] = useState({
-    verifyPassword: '',
+    verifyPassword: "",
   });
 
   const history = useHistory();
@@ -39,10 +39,10 @@ const SignupPage = () => {
       toast({
         title: toastMessage.title,
         description: toastMessage.description,
-        status: 'warning',
+        status: "warning",
         duration: toastMessage.duration,
         isClosable: true,
-        position: 'bottom-left',
+        position: "bottom-left",
       });
     }
   }, [toastMessage, toast]);
@@ -51,49 +51,50 @@ const SignupPage = () => {
     event.preventDefault();
     const { name, value } = event.target;
     setNewUserField({ ...newUser, [name]: value });
-    console.log(event.target.value);
   };
 
   const validate = () => {
     const firstPasswordInput = newUser.password;
     const secondPasswordInput = newUser.confirmedUserPassword;
     if (firstPasswordInput !== secondPasswordInput) {
-      console.log('in if statement');
-      setError({ ...error, verifyPassword: 'passwords do not match' });
+      setError({ ...error, verifyPassword: "passwords do not match" });
       return false;
     }
-    console.log(error.verifyPassword);
     return true;
   };
 
   // backend function passed down in props that will take the currentUser as input;
   const handleNewUserSubmit = (event) => {
     event.preventDefault();
-    console.log(newUser);
 
     const errorStatus = validate();
-    console.log(errorStatus);
     let title;
     let description;
     let duration;
     if (errorStatus) {
-      fetch('/api/member/signup', {
-        method: 'Post',
+      fetch("/api/member/signup", {
+        method: "Post",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
       })
         .then((res) => {
           if (res.status === 200) {
             return res.json();
-          } 
-          return res.json().then((data) => { throw data });
+          }
+          return res.json().then((data) => {
+            throw data;
+          });
         })
-        .then((data) =>  auth.signInFunc(data.user.id, data.user.username, () => history.replace('/time/home')))
+        .then((data) =>
+          auth.signInFunc(data.user.id, data.user.username, () =>
+            history.replace("/time/home")
+          )
+        )
         .catch((error) => {
-          title = 'Error';
-          description = `${error.err}`
+          title = "Error";
+          description = `${error.err}`;
           duration = 9000;
           setToastMessage({ title, description, duration });
         });
