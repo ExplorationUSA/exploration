@@ -86,7 +86,7 @@ const NewTripDrawer = (props) => {
     onClose();
     switch (datesKnown) {
       case 'day':
-        tripStart = new Date(yearStart, monthStart, yearStart);
+        tripStart = new Date(yearStart, monthStart, dayStart);
         tripEnd = new Date(yearEnd, monthEnd, dayEnd);
         break;
       case 'month':
@@ -98,8 +98,8 @@ const NewTripDrawer = (props) => {
         tripEnd = yearEnd;
         break;
       case 'none':
-        tripStart = 'none';
-        tripEnd = 'none';
+        tripStart = null;
+        tripEnd = null;
         break;
     }
     handleNewTrip(tripName, location, datesKnown, tripStart, tripEnd);
@@ -205,18 +205,18 @@ const NewTripDrawer = (props) => {
                             value={monthStart}
                             onChange={handleMonthStart}
                           >
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
                           </Select>
                         </GridItem>
                       )}
@@ -255,15 +255,15 @@ const NewTripDrawer = (props) => {
                             <option value="26">26</option>
                             <option value="27">27</option>
                             <option value="28">28</option>
-                            {monthStart !== 2 && <option value="29">29</option>}
-                            {monthStart !== 2 && <option value="30">30</option>}
-                            {(monthStart === 1 ||
-                              monthStart === 3 ||
-                              monthStart === 5 ||
+                            {monthStart !== 1 && <option value="29">29</option>}
+                            {monthStart !== 1 && <option value="30">30</option>}
+                            {(monthStart === 0 ||
+                              monthStart === 2 ||
+                              monthStart === 4 ||
+                              monthStart === 6 ||
                               monthStart === 7 ||
-                              monthStart === 8 ||
-                              monthStart === 10 ||
-                              monthStart === 12) && (
+                              monthStart === 9 ||
+                              monthStart === 11) && (
                               <option value="31">31</option>
                             )}
                           </Select>
@@ -323,18 +323,18 @@ const NewTripDrawer = (props) => {
                             value={monthEnd}
                             onChange={handleMonthEnd}
                           >
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="0">January</option>
+                            <option value="1">February</option>
+                            <option value="2">March</option>
+                            <option value="3">April</option>
+                            <option value="4">May</option>
+                            <option value="5">June</option>
+                            <option value="6">July</option>
+                            <option value="7">August</option>
+                            <option value="8">September</option>
+                            <option value="9">October</option>
+                            <option value="10">November</option>
+                            <option value="11">December</option>
                           </Select>
                         </GridItem>
                       )}

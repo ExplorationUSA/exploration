@@ -46,6 +46,7 @@ authController.logout = (req, res, next) => {
 };
 
 authController.isAuthenticated = (req, res, next) => {
+  console.log('authenticating user');
   if (!req.isAuthenticated()) {
     return next({
       log: 'authController.isAuthenticated: Access Denied',

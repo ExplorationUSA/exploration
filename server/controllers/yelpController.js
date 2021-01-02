@@ -6,106 +6,106 @@ const client = yelp.client(API_KEY);
 const yelpController = {};
 
 yelpController.getActivities = async (req, res, next) => {
-    const { categories, location } = req.body;
+  const { categories, location } = req.body;
 
-    const offset = [20, 40, 60, 80, 100];
-    let completeResult = [];
-    let differentSearchRequests = [];
-    
-    for (let i = 0; i < offset.length; i++) {
-        const searchRequest = {
-            categories,
-            location,
-            offset: offset[i]
-        };
+  const offset = [20, 40, 60, 80, 100];
+  let completeResult = [];
+  let differentSearchRequests = [];
 
-        let uniqueSearchRequest = client.search(searchRequest);
+  for (let i = 0; i < offset.length; i++) {
+    const searchRequest = {
+      categories,
+      location,
+      offset: offset[i],
+    };
 
-        differentSearchRequests.push(uniqueSearchRequest);
-    }
+    let uniqueSearchRequest = client.search(searchRequest);
 
-    const searchResult = await Promise.all(differentSearchRequests)
-    searchResult.forEach(response => {
-        const data = response.jsonBody.businesses;
+    differentSearchRequests.push(uniqueSearchRequest);
+  }
 
-            data.forEach(business => {
-                let targetData = {};
+  const searchResult = await Promise.all(differentSearchRequests);
+  searchResult.forEach((response) => {
+    const data = response.jsonBody.businesses;
 
-                targetData.name = business.name;
-                targetData.image_url = business.image_url;
-                targetData.url = business.url;
-                targetData.review_count = business.review_count;
-                targetData.rating = business.rating;
-                targetData.categories = business.categories;
-                targetData.coordinates = business.coordinates;
-                targetData.address = business.location.display_address;
+    data.forEach((business) => {
+      let targetData = {};
 
-                completeResult.push(targetData);
-                // console.log('This length is: ', completeResult.length)
-            });
+      targetData.name = business.name;
+      targetData.image_url = business.image_url;
+      targetData.url = business.url;
+      targetData.review_count = business.review_count;
+      targetData.rating = business.rating;
+      targetData.categories = business.categories;
+      targetData.coordinates = business.coordinates;
+      targetData.address = business.location.display_address;
+
+      completeResult.push(targetData);
+      // console.log('This length is: ', completeResult.length)
     });
+  });
 
-    completeResult.sort((a, b) => b.review_count - a.review_count);
-    
-    res.locals.result = completeResult;
-    res.locals.message = `Successfully grabbed the data with ${res.locals.result.length} businesses`;
-    return next();
+  completeResult.sort((a, b) => b.review_count - a.review_count);
 
-    // for (let i = 0; i < offset.length; i++) {
+  res.locals.result = completeResult;
+  res.locals.message = `Successfully grabbed the data with ${res.locals.result.length} businesses`;
+  return next();
 
-    //     const searchRequest = {
-    //         categories,
-    //         location,
-    //         offset: offset[i]
-    //     };
+  // for (let i = 0; i < offset.length; i++) {
 
-    //     // console.log('The searchRequest: ', searchRequest);
+  //     const searchRequest = {
+  //         categories,
+  //         location,
+  //         offset: offset[i]
+  //     };
 
-    //     client.search(searchRequest)
-    //     .then(response => {
-    //         const data = response.jsonBody.businesses;
+  //     // console.log('The searchRequest: ', searchRequest);
 
-    //         data.forEach(business => {
-    //             let targetData = {};
+  //     client.search(searchRequest)
+  //     .then(response => {
+  //         const data = response.jsonBody.businesses;
 
-    //             targetData.name = business.name;
-    //             targetData.image_url = business.image_url;
-    //             targetData.url = business.url;
-    //             targetData.review_count = business.review_count;
-    //             targetData.rating = business.rating;
-    //             targetData.categories = business.categories;
-    //             targetData.coordinates = business.coordinates;
-    //             targetData.address = business.location.display_address;
+  //         data.forEach(business => {
+  //             let targetData = {};
 
-    //             completeResult.push(targetData);
-    //             // console.log('This length is: ', completeResult.length)
-    //         });
+  //             targetData.name = business.name;
+  //             targetData.image_url = business.image_url;
+  //             targetData.url = business.url;
+  //             targetData.review_count = business.review_count;
+  //             targetData.rating = business.rating;
+  //             targetData.categories = business.categories;
+  //             targetData.coordinates = business.coordinates;
+  //             targetData.address = business.location.display_address;
 
-    //         console.log('This is the complete Result: ', completeResult.length);
-            
-    //         // if (!res.locals.result) {
-    //         //     res.locals.result = completeResult;
-    //         // } else {
-    //         //     completeResult.forEach(business => {
-    //         //         res.locals.result.push(business);
-    //         //     })
-    //         // }
+  //             completeResult.push(targetData);
+  //             // console.log('This length is: ', completeResult.length)
+  //         });
 
-    //         // if (res.locals.result.length === 100){
-    //         //     res.locals.message = `Successfully grabbed the data with ${res.locals.result.length} businesses`;
-    //         //     return next();
-    //         // }
-    //     })
-    //     .catch(err => {
-    //         return next({
-    //             log: `yelpController.getActivities: ${err}`,
-    //             status: 500,
-    //             message: {
-    //                 err: 'Internal Server Error',
-    //             },
-    //         });
-    //     });
-    // }
-}
+  //         console.log('This is the complete Result: ', completeResult.length);
+
+  //         // if (!res.locals.result) {
+  //         //     res.locals.result = completeResult;
+  //         // } else {
+  //         //     completeResult.forEach(business => {
+  //         //         res.locals.result.push(business);
+  //         //     })
+  //         // }
+
+  //         // if (res.locals.result.length === 100){
+  //         //     res.locals.message = `Successfully grabbed the data with ${res.locals.result.length} businesses`;
+  //         //     return next();
+  //         // }
+  //     })
+  //     .catch(err => {
+  //         return next({
+  //             log: `yelpController.getActivities: ${err}`,
+  //             status: 500,
+  //             message: {
+  //                 err: 'Internal Server Error',
+  //             },
+  //         });
+  //     });
+  // }
+};
 
 module.exports = yelpController;

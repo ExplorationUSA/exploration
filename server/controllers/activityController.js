@@ -52,10 +52,10 @@ activityController.createActivity = async (req, res, next) => {
       id,
     ]);
 
-    if (activity.rowCount) {
+    // if (activity.rowCount) {
       res.locals.activity = activity.rows[0];
       next();
-    }
+    // }
   } catch (error) {
     return next({
       log: `activityController.createActivity: ${error}`,
@@ -105,10 +105,10 @@ activityController.getActivities = async (req, res, next) => {
 
     const { rowCount, rows } = activities;
 
-    if (rowCount) {
+    // if (rowCount) {
       res.locals.activities = rows;
       next();
-    }
+    // }
   } catch (error) {
     return next({
       log: `activtyController.getActivities: ${error}`,

@@ -23,14 +23,14 @@ const PORT = 3000;
  */
 app.use(express.json());
 
-// app.use(
-//   session({
-//     secret: SESSION_SECRET,
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
-//   })
-// );
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    cookie: { httpOnly: true, maxAge: 60 * 60 * 1000 },
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());

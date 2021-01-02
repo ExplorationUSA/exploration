@@ -3,6 +3,7 @@ const express = require('express');
 const route = express.Router();
 const authController = require('../controllers/authController');
 const tripController = require('../controllers/tripController');
+const activityController = require('../controllers/activityController');
 
 route.post(
   '/',
@@ -26,8 +27,9 @@ route.get(
   '/:id',
   authController.isAuthenticated,
   tripController.getTrip,
+  activityController.getActivities,
   (req, res) => {
-    res.status(200).json({ trip: res.locals.trip });
+    res.status(200).json({ trip: res.locals.trip, activities: res.locals.activities });
   }
 );
 
