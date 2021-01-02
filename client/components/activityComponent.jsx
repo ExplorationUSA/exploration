@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 import {
   Box,
@@ -11,7 +11,7 @@ import {
   Badge,
   Center,
   Flex,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 const Activity = (props) => {
   const {
@@ -66,7 +66,7 @@ const Activity = (props) => {
           <Flex mt={5} mb={5} justifyContent="center">
             <Box d="flex" alignItems="center">
               <Link href={url} isExternal>
-                <Button type="button" size="sm" colorScheme="blue">
+                <Button type="button" size="sm" colorScheme="purple">
                   View
                 </Button>
               </Link>

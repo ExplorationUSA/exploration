@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect, Component } from "react";
 
 import {
   Flex,
@@ -10,16 +10,16 @@ import {
   StackDivider,
   Text,
   Heading,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 // import "@babel/polyfill";
-import NavBar from '../../components/NavBar';
-import TripPageIntroText from '../../components/tripPageIntroText';
-import Footer from '../../components/Footer';
+import NavBar from "../../components/NavBar";
+import TripPageIntroText from "../../components/tripPageIntroText";
+import Footer from "../../components/Footer";
 // import Activity from '../../components/activityComponent';
-import ActivitiesList from './Activities/ActivityList';
-import ActivitySearch from '../../components/ActivitySearch';
-import SavedActivities from '../../components/SavedActivities';
+import ActivitiesList from "./Activities/ActivityList";
+import ActivitySearch from "../../components/ActivitySearch";
+import SavedActivities from "../../components/SavedActivities";
 class TripPage extends Component {
   constructor(props) {
     super(props);
@@ -59,11 +59,11 @@ class TripPage extends Component {
   }
 
   handleSearchedActivities = (location, category) => {
-    fetch('/api/yelp/', {
-      method: 'POST',
+    fetch("/api/yelp/", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         categories: category,
@@ -80,14 +80,14 @@ class TripPage extends Component {
         });
       })
       .then((result) => {
-        console.log('result', result);
+        console.log("result", result);
         let trip = { ...this.state.trip };
         let newActivites = result.result;
         trip.searchedActivities = newActivites;
         this.setState({ trip });
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
   addActivityHandler = (
@@ -104,10 +104,10 @@ class TripPage extends Component {
     event.preventDefault();
 
     fetch(`/api/activity/${this.state.tripId}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name,
@@ -121,14 +121,25 @@ class TripPage extends Component {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        let trip = { ...this.state.trip };
+        const activity = data.activity;
+        activity.imageUrl = data.activity.image_url;
+        trip.activities.push(data.activity);
+        this.setState({ trip });
+        console.log(data.activity);
+
+        // const trip = [...this.state.trip];
+        // trip.activities.push(data.activity);
+        // this.props.handleNewTrip(trips);
+      })
       .catch((error) => console.log(error));
   };
   deleteActivityHandler = (event, id) => {
     fetch(`/api/activity/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((res) => {
@@ -156,10 +167,10 @@ class TripPage extends Component {
             <TripPageIntroText trip={this.state.trip} />
           </GridItem>
           <GridItem colSpan={3}>
-            <Heading align="center" color="gray.900" mt="5%" fontSize="2xl">
+            <Heading align="center" color="gray.900" mt="1%" fontSize="2xl">
               Saved Activities
             </Heading>
-            <Grid templateColumns="repeat(4, 1fr)" m={30} padding={10} gap={6}>
+            <Grid templateColumns="repeat(4, 1fr)" m={30} padding={2} gap={6}>
               {this.state.trip.activities.map((savedActivity) => (
                 <SavedActivities
                   deleteActivityHandler={this.deleteActivityHandler}

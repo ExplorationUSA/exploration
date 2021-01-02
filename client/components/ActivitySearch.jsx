@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import {
-  createStandaloneToast,
-  useDisclosure,
-  Drawer,
-  Text,
-  Button,
-  Input,
-  Flex,
-  Box,
-  Spacer,
-  Heading,
-} from '@chakra-ui/react';
+import { Button, Input, Flex, Box, Heading, Select } from "@chakra-ui/react";
 
 const ActivitySearch = (props) => {
-  const [searchField, setSearchField] = useState('');
+  const [searchField, setSearchField] = useState("");
+
+  const handleSelectedSearch = (event) => {
+    setSearchField(event.target.value);
+  };
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -28,14 +21,20 @@ const ActivitySearch = (props) => {
       </Heading>
       <Flex paddingX={40}>
         <Box flex="2">
-          <Input
-            placeholder="Food, Parks, Museums, Music, Sports, etc."
-            size="lg"
-            colorScheme="white"
-            bg="white"
+          <Select
+            placeholder="Search Activities"
             value={searchField}
-            onChange={(e) => setSearchField(e.target.value)}
-          />
+            onChange={handleSelectedSearch}
+            background="white"
+          >
+            <option value="arts">Arts</option>
+            <option value="active">Currently Open</option>
+            <option value="food">Food</option>
+            <option value="hotels">Hotels</option>
+            <option value="parks">Parks</option>
+            <option value="shopping">Shopping</option>
+            <option value="tours">Tours</option>
+          </Select>
         </Box>
         <Box>
           <Button
