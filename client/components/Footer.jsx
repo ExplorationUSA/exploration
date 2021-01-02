@@ -36,7 +36,6 @@ const Footer = () => (
           textAlign={['left', 'center']}
           fontSize={{ base: '8px', md: '12px', lg: '16px' }}
         >
-          Made with React, Chakra UI, ***
         </Text>
       </GridItem>
       <GridItem m={2}>

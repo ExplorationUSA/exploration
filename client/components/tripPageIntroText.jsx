@@ -5,49 +5,42 @@ import { Text, Grid, GridItem, Flex } from "@chakra-ui/react";
 import MyActivities from "../components/MyActivities";
 
 const TripPageIntroText = (props) => {
-  // {tripName} = props.trip
+  let rowNumber;
+  props.trip.tripStartFrontEnd
+    ? (rowNumber = "repeat(3, 1fr)")
+    : (rowNumber = "repeat(2, 1fr)");
+
   return (
     <>
-        <Grid templateColumns={(props.trip.tripStartFrontEnd || props.trip.tripEndFrontEnd) ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}>
-        <GridItem rowSpan={1}>
+      <Grid templateColumns="repeat(3, 1fr)" templateRows={rowNumber}>
+        <GridItem rowSpan={1} colSpan={3}>
           <Text align="center" color="gray.900" mt="5%" fontSize="5xl">
             {props.trip.tripName}
           </Text>
         </GridItem>
-        <GridItem rowSpan={1}>
-          <Text
-            align="center"
-            color="gray.700"
-            fontSize="3xl"
-          >
+        <GridItem rowSpan={1} colSpan={3}>
+          <Text align="center" color="gray.700" fontSize="3xl">
             {props.trip.location}
           </Text>
         </GridItem>
-        <GridItem rowSpan={1}>
-          <Grid templateColumns={(props.trip.tripStartFrontEnd || props.trip.tripEndFrontEnd) ? 'repeat(3, 1fr)' : 'repeat(1, 1fr)'}>
-            <GridItem align="right" colSpan={1}>
-              {props.trip.tripStartFrontEnd && <Text fontSize="lg">
+        {props.trip.tripStartFrontEnd && (
+          <>
+            <GridItem align="right" rowSpan={1} colSpan={1}>
+              <Text fontSize="xl">
                 {new Date(props.trip.tripStartFrontEnd).toLocaleDateString()}
-              </Text>}
+              </Text>
             </GridItem>
-            {(props.trip.tripStartFrontEnd || props.trip.tripEndFrontEnd) &&
-            <GridItem align="center" colSpan={1}>
-              <Text fontSize="lg">-</Text>
-            </GridItem>}
+            <GridItem align="center" rowSpan={1} colSpan={1}>
+              <Text fontSize="xl">-</Text>
+            </GridItem>
 
-            <GridItem align="left" colSpan={1}>
-              {props.trip.tripEndFrontEnd && <Text fontSize="lg">
+            <GridItem align="left" rowSpan={1} colSpan={1}>
+              <Text fontSize="xl">
                 {new Date(props.trip.tripEndFrontEnd).toLocaleDateString()}
               </Text>
-              }
             </GridItem>
-            {/* <GridItem rowSpan={1}>
-              <Flex align="center">
-                <MyActivities />
-              {/* </Flex> */}
-            {/* </GridItem>  */}
-          </Grid>
-        </GridItem>
+          </>
+        )}
       </Grid>
     </>
   );
