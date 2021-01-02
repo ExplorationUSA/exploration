@@ -25,7 +25,7 @@ const HomePage = () => {
         py={2}
       >
         <Stack spacing={8}>
-          <Box>
+          <Box pb={330}>
             <Heading
               fontSize="4xl"
               px="30px"

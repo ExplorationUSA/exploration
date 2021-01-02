@@ -49,7 +49,6 @@ tripController.createTrip = async (req, res, next) => {
       dates_known,
       memberId,
     ]);
-    console.log(trip);
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
@@ -147,7 +146,6 @@ tripController.updateTrip = async (req, res, next) => {
     });
   }
 };
-
 
 tripController.deleteTrip = async (req, res, next) => {
   const { id } = req.params;
