@@ -4,15 +4,19 @@ const tripController = {};
 
 tripController.createTrip = async (req, res, next) => {
   const {
-    title, destination, startDate, endDate, placeId,
+    title, destination, startDate, endDate, placeId, locationphotos, dates_known 
   } = req.body;
-
+  console.log(req.body);
   const memberId = req.session.passport.user;
 
   if (
     title === undefined
     || destination === undefined
     || placeId === undefined
+    || locationphotos === undefined
+    || dates_known === undefined
+    || !dates_known
+    || !locationphotos
     || !placeId
     || !title
     || !destination
@@ -27,15 +31,18 @@ tripController.createTrip = async (req, res, next) => {
   }
 
   try {
-    const query = 'INSERT INTO trip (title, destination, place_id, start_date, end_date, member_id) VALUES ($1, $2 , $3, $4, $5, $6) RETURNING *';
+    const query = 'INSERT INTO trip (title, destination, place_id, start_date, end_date, locationphotos, dates_known, member_id) VALUES ($1, $2 , $3, $4, $5, $6, $7, $8) RETURNING *';
     const trip = await Pool.query(query, [
       title,
       destination,
       placeId,
       startDate,
       endDate,
+      locationphotos,
+      dates_known,
       memberId,
     ]);
+    console.log(trip);
 
     if (trip.rowCount) {
       res.locals.trip = trip.rows[0];
@@ -136,6 +143,8 @@ tripController.updateTrip = async (req, res, next) => {
 };
 
 tripController.deleteTrip = async (req, res, next) => {
+  //TODO: Must delete all activities related to trip to avoid foreign key constraint 
+
   const { id } = req.params;
 
   if (!id) {
@@ -149,8 +158,6 @@ tripController.deleteTrip = async (req, res, next) => {
   }
 
   try {
-    const activityQuery = 'DELETE FROM activity WHERE trip_id = $1';
-    const activitiesDeleted = await Pool.query(activityQuery, [id]);
     const query = 'DELETE FROM trip WHERE id = $1';
     const tripDeleted = await Pool.query(query, [id]);
 
@@ -178,10 +185,10 @@ tripController.getTrip = async (req, res, next) => {
       rows: [data],
     } = trip;
 
-    if (rowCount) {
+    // if (rowCount) {
       res.locals.trip = data;
       next();
-    }
+    // }
   } catch (error) {
     return next({
       log: `tripController.getTrip: ${error}`,
