@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, Component } from 'react';
 
 import {
   Flex,
@@ -9,23 +9,24 @@ import {
   VStack,
   StackDivider,
   Text,
-} from "@chakra-ui/react";
+  Heading,
+} from '@chakra-ui/react';
 
 // import "@babel/polyfill";
-import NavBar from "../../components/NavBar";
-import TripPageIntroText from "../../components/tripPageIntroText";
-import Footer from "../../components/Footer";
+import NavBar from '../../components/NavBar';
+import TripPageIntroText from '../../components/tripPageIntroText';
+import Footer from '../../components/Footer';
 // import Activity from '../../components/activityComponent';
-import ActivitiesList from "./Activities/ActivityList";
-import ActivitySearch from "../../components/ActivitySearch";
-import SavedActivities from "../../components/SavedActivities";
+import ActivitiesList from './Activities/ActivityList';
+import ActivitySearch from '../../components/ActivitySearch';
+import SavedActivities from '../../components/SavedActivities';
 class TripPage extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       trip: {
-        activities: []
+        activities: [],
       },
       tripId: props.location.state.param,
     };
@@ -35,7 +36,6 @@ class TripPage extends Component {
   }
 
   componentDidMount() {
-
     // const { tripId } = this.props.match.params
     // console.log('Get url params', tripId);
 
@@ -53,20 +53,17 @@ class TripPage extends Component {
         newTrip.id = result.trip.id;
         newTrip.activities = result.activities;
 
-
-
         this.setState({ trip: newTrip });
       })
       .catch((err) => console.log(err));
   }
 
   handleSearchedActivities = (location, category) => {
-
-    fetch("/api/yelp/", {
-      method: "POST",
+    fetch('/api/yelp/', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         categories: category,
@@ -78,27 +75,39 @@ class TripPage extends Component {
           return response.json();
         }
 
-        return response.json().then(err => { throw err});
+        return response.json().then((err) => {
+          throw err;
+        });
       })
       .then((result) => {
-        console.log("result", result);
+        console.log('result', result);
         let trip = { ...this.state.trip };
         let newActivites = result.result;
         trip.searchedActivities = newActivites;
         this.setState({ trip });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   };
-  addActivityHandler = (event, name, location, image_url, url, latitude, longitude, reviewCount, rating) => {
+  addActivityHandler = (
+    event,
+    name,
+    location,
+    image_url,
+    url,
+    latitude,
+    longitude,
+    reviewCount,
+    rating
+  ) => {
     event.preventDefault();
 
     fetch(`/api/activity/${this.state.tripId}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name,
@@ -111,15 +120,15 @@ class TripPage extends Component {
         longitude,
       }),
     })
-    .then((res) => res.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error))
-  }
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
   deleteActivityHandler = (event, id) => {
     fetch(`/api/activity/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => {
@@ -129,7 +138,9 @@ class TripPage extends Component {
         });
       })
       .then((data) => {
-        const activities = this.state.trip.activities.filter((el) => el.id !== id);
+        const activities = this.state.trip.activities.filter(
+          (el) => el.id !== id
+        );
         this.setState({ trip: { ...this.state.trip, activities } });
       })
       .catch((error) => {
@@ -137,7 +148,6 @@ class TripPage extends Component {
       });
   };
   render() {
-
     return (
       <>
         <NavBar />
@@ -146,21 +156,31 @@ class TripPage extends Component {
             <TripPageIntroText trip={this.state.trip} />
           </GridItem>
           <GridItem colSpan={3}>
-            <Text align="center" color="gray.900" mt="5%" fontSize="2xl">Saved Activities</Text>
-          {this.state.trip.activities.map((savedActivity) =>
-            <SavedActivities deleteActivityHandler={this.deleteActivityHandler} activity = {savedActivity} />
-            )}
-          </GridItem>  
-          <GridItem colSpan={3}>
+            <Heading align="center" color="gray.900" mt="5%" fontSize="2xl">
+              Saved Activities
+            </Heading>
+            <Grid templateColumns="repeat(4, 1fr)" m={30} padding={10} gap={6}>
+              {this.state.trip.activities.map((savedActivity) => (
+                <SavedActivities
+                  deleteActivityHandler={this.deleteActivityHandler}
+                  activity={savedActivity}
+                />
+              ))}
+            </Grid>
+          </GridItem>
+          <GridItem colSpan={3} m={30} padding={10} bg="gray.100">
             <ActivitySearch
               trip={this.state.trip}
               handleSearchedActivities={this.handleSearchedActivities}
             />
           </GridItem>
           <GridItem colSpan={3}>
-            
-            {this.state.trip.searchedActivities && <ActivitiesList  addActivityHandler={this.addActivityHandler} trip={this.state.trip} />
-        }
+            {this.state.trip.searchedActivities && (
+              <ActivitiesList
+                addActivityHandler={this.addActivityHandler}
+                trip={this.state.trip}
+              />
+            )}
           </GridItem>
         </Grid>
         <Footer />

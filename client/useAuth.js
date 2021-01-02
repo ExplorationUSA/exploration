@@ -3,16 +3,26 @@ import React, { useContext, createContext, useState, useEffect } from 'react';
 const authContext = createContext();
 
 const useProvideAuth = () => {
-  const [user, setUser] = useState({ userId: null, userName: '', isAuthenticated: false });
+  const [user, setUser] = useState({
+    userId: null,
+    userName: '',
+    isAuthenticated: false,
+  });
   const signInFunc = (userId, userName, cb) => {
     setUser({
-      ...user, userId, userName, isAuthenticated: true,
+      ...user,
+      userId,
+      userName,
+      isAuthenticated: true,
     });
     cb();
   };
   const signOutFunc = (cb) => {
     setUser({
-      ...user, userId: null, userName: '', isAuthenticated: false,
+      ...user,
+      userId: null,
+      userName: '',
+      isAuthenticated: false,
     });
     cb();
   };
@@ -24,18 +34,16 @@ const useProvideAuth = () => {
           throw data;
         });
       })
-      .then(({ message, user}) => {
-        console.log('load user on refresh', user);
+      .then(({ message, user }) => {
         setUser({
           ...user,
           userId: user.id,
           userName: user.username,
           isAuthenticated: true,
-  }); 
+        });
       })
       .catch((error) => console.log(error));
-    return () => {
-    };
+    return () => {};
   }, []);
   return { user, signInFunc, signOutFunc };
 };
@@ -43,6 +51,6 @@ const useProvideAuth = () => {
 export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-};
+}
 
 export const useAuth = () => useContext(authContext);
