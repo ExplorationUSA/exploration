@@ -4,7 +4,7 @@ const tripController = {};
 
 tripController.createTrip = async (req, res, next) => {
   const {
-    title, destination, startDate, endDate, placeId,
+    title, destination, startDate, endDate, placeId, locationPhotos
   } = req.body;
 
   const memberId = req.session.passport.user;
@@ -13,6 +13,8 @@ tripController.createTrip = async (req, res, next) => {
     title === undefined
     || destination === undefined
     || placeId === undefined
+    || locationPhotos === undefined 
+    || !locationPhotos
     || !placeId
     || !title
     || !destination
@@ -27,13 +29,14 @@ tripController.createTrip = async (req, res, next) => {
   }
 
   try {
-    const query = 'INSERT INTO trip (title, destination, place_id, start_date, end_date, member_id) VALUES ($1, $2 , $3, $4, $5, $6) RETURNING *';
+    const query = 'INSERT INTO trip (title, destination, place_id, start_date, end_date, locationPhotos,member_id) VALUES ($1, $2 , $3, $4, $5, $6, $7) RETURNING *';
     const trip = await Pool.query(query, [
       title,
       destination,
       placeId,
       startDate,
       endDate,
+      locationPhotos,
       memberId,
     ]);
 
