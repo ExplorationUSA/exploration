@@ -16,7 +16,7 @@ const routeYelp = require('./routes/yelp');
 /**
  * system config.
  */
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 /**
  * handle parsing request body
