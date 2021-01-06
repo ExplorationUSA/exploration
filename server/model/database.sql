@@ -13,7 +13,7 @@ start_date DATE NOT NULL,
 end_date DATE NOT NULL,
 member_id INT NOT NULL, 
 place_id VARCHAR(1000),
-locationphotos [],
+locationphotos VARCHAR [],
 dates_known  VARCHAR(1000),
 FOREIGN KEY (member_id) REFERENCES member(id)
 );
@@ -28,6 +28,7 @@ url VARCHAR(1000),
 latitude DECIMAL,
 longitude DECIMAL,
 rating DECIMAL,
-review_count INT
+review_count INT,
 FOREIGN KEY (trip_id) REFERENCES trip(id)
 );
+
